@@ -166,22 +166,27 @@ See CREDITS.md for everyone this project builds on.
 Vince GLM5.3 Flash (this fork): what was changed
 ========================================================================================================================
 
-Vince GLM5.3 Flash is a modified version of the project above (branch zig-engine at commit 697d8e9). Everything above
+Vince GLM5.3 Flash is a modified version of the project above: of its Python-engine setup for four Sparks
+(ENGINE=python), taken at commit 697d8e9 on the branch the project names zig-engine (that branch carries both of its
+engines; this fork runs and changes the Python engine only). Everything above
 this line is Mia's AI Lab's NOTICE, unchanged. This fork's own changes are licensed under the Apache License,
 Version 2.0 (see LICENSE). As Apache-2.0, section 4 asks, the changes are:
 
   Added: start-vince.sh, stop-vince.sh, .gitignore, .env (two of the project's own settings switched on) and the
   folder vince/ (modes.sh, local.sh.example, build-image.sh, check.sh, CREDITS.md, tools/, results/, overlay/ and the
-  diff glm53-vince-v2.3.patch).
+  diff glm53-vince-v2.5.patch); docs/img/v2.4-sparkdash-*.png (three screenshots of this fork's measurements).
   Changed: README.md is this fork's (the project's README is kept as README-Mia.md); CHANGELOG.md has this fork's
-  entries on top; this section of NOTICE.
-  Not changed: patches/, zig/, scripts/, start.sh and the other start and stop scripts, docs/, tests/, tools/,
-  CREDITS.md, LICENSE.
+  entries on top; this section of NOTICE. start.sh: the COPY_MAX check allows up to TF_GLM_MAX_ROWS - 1 (was 15).
+  scripts/config.sh: TF_GLM_WIDE_GRAPHS reads WIDE_GRAPHS when it is set. .github/: the issue and pull-request
+  templates point at this fork; the project's sponsor button (FUNDING.yml) and its contact links are removed, since
+  they are the project's own and not this fork's to offer.
+  Not changed: patches/, zig/, the rest of scripts/, the other start and stop scripts, the rest of docs/, tests/,
+  tools/, CREDITS.md, LICENSE.
 
 vince/overlay (modified TensorFold files)
   The files under vince/overlay/tensorfold/ are files of TensorFold v0.6.0 as this project's patches/ leave them,
   modified further by this fork; vince/build-image.sh copies them over the installed package in an image layer on
-  top of the project's image. vince/glm53-vince-v2.3.patch is the diff of this fork's changes against that package.
+  top of the project's image. vince/glm53-vince-v2.5.patch is the diff of this fork's changes against that package.
   They stay under TensorFold's licenses as described above (Apache-2.0, and for code written before 0.6.0 its MIT
   notice: keep TensorFold's NOTICE and the copyright and permission notice above with any copy), with the changes of
   patches/ under Apache-2.0 as credited above (among them, in exl3.cu, exl3.cpp and exl3_mm.py, the decode loads
@@ -229,6 +234,16 @@ TensorFold, again (v2.4)
   (#2801 / #2831), written here for this engine in vince/overlay/tensorfold/server/tools.py and cuda/reply_text.py;
   the heat bands TF_HEAT_HIGH / TF_HEAT_LOW, written here as vince/overlay/tensorfold/families/glm5_next/cuda/heat.py
   (a new file) with one hook in multi.py.
+
+Tool-call rules (v2.5)
+  vince/overlay/tensorfold/server/tools.py (TOOL_RULES, with_tool_rules) and one hook in
+  vince/overlay/tensorfold/cuda/server.py: this fork's own text and code, off unless TF_GLM_TOOL_RULES=1. Measured with
+  tool-eval-bench by SeraphimSerapis (https://github.com/SeraphimSerapis/tool-eval-bench, MIT); nothing of it is
+  copied.
+
+A note on the DFlash2 drafter's licence
+  The project's NOTICE above records CC BY-NC-ND 4.0 for incoai/GLM-5.3-Flash-DFlash2. Its model card read on
+  2026-11-12 states apache-2.0. The model card governs: read it before any commercial use.
 
 Parakeet (optional, vince/extras/parakeet; not installed or started by the recipe)
   The installer downloads nvidia/parakeet-tdt-0.6b-v3 from Hugging Face (NVIDIA, CC BY 4.0) and, from PyPI and

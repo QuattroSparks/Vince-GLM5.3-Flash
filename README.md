@@ -10,12 +10,14 @@ Serve **GLM-5.3-Flash** from four NVIDIA DGX Sparks cabled to each other as a ri
 OpenAI-compatible API: 8 concurrent requests, the model's 1,048,576-token context, image and video input. This is
 [Mia's AI Lab](https://github.com/MiaAI-Lab)'s recipe
 [GLM-5.3-Flash-EXL3-2x-DGX-Sparks-TensorFold](https://github.com/MiaAI-Lab/GLM-5.3-Flash-EXL3-2x-DGX-Sparks-TensorFold)
-(Apache-2.0) with one more image layer on top: her checkpoint, her TensorFold v0.6.0 **Python engine** with her 106
-patches and her scripts are all used unchanged. The fork starts from her commit `697d8e9`; that commit sits on her
-branch named `zig-engine`, which holds the four-Spark scripts for both of her engines, but her Zig engine is not
-used here. The layer changes 31 TensorFold files
-so that a long prompt is read **about 70-85% faster** than her build reads it on the same four Sparks. It is for
-people who already run, or want to run, Mia's four-Spark ring and send it long prompts: agents, documents, code bases.
+(Apache-2.0), forked from her **Python engine** setup for four Sparks (`ENGINE=python`: TensorFold v0.6.0 with her 106
+patches). A git detail, so nobody is misled by a name: she keeps that setup on a branch called `zig-engine`;
+that branch also carries her newer Zig engine, and there is no separate Python branch. The fork starts at her
+commit `697d8e9` there, and runs and changes the Python engine only; the Zig engine is never started. On top comes one
+more image layer: her checkpoint, her engine and patches and her scripts are used as they are (two small edits to her
+scripts are listed in `NOTICE`), and the layer changes 31 TensorFold files so that a long prompt is read **about
+70-85% faster** than her build reads it on the same four Sparks. It is for people who already run, or want to run,
+Mia's four-Spark ring and send it long prompts: agents, documents, code bases.
 
 | | Mia's stock build | This recipe, `exact` mode | This recipe, `fast` mode (default) |
 |---|---:|---:|---:|
@@ -557,7 +559,8 @@ whole installation and on the rules you work under, and on checking the model's 
   `replies-default.json` (fast) and `replies-stock.json` (stock and exact).
 - `vince/CREDITS.md`: whose work this builds on, and what is new here.
 - `README-Mia.md`, `CREDITS.md`, `NOTICE`, `LICENSE`, `patches/`, `scripts/`, `zig/`, `docs/`, `tests/`, `tools/` and
-  the other start scripts: Mia's recipe, unchanged (`NOTICE` has one section added at its end).
+  the other start scripts: Mia's recipe, unchanged but for what `NOTICE` lists in the section added at its end (one
+  line in `start.sh`, one in `scripts/config.sh`, three screenshots in `docs/img`).
 - `CHANGELOG.md`: this recipe's versions on top, then Mia's.
 
 ## License
