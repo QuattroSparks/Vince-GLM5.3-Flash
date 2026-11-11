@@ -10,8 +10,10 @@ Serve **GLM-5.3-Flash** from four NVIDIA DGX Sparks cabled to each other as a ri
 OpenAI-compatible API: 8 concurrent requests, the model's 1,048,576-token context, image and video input. This is
 [Mia's AI Lab](https://github.com/MiaAI-Lab)'s recipe
 [GLM-5.3-Flash-EXL3-2x-DGX-Sparks-TensorFold](https://github.com/MiaAI-Lab/GLM-5.3-Flash-EXL3-2x-DGX-Sparks-TensorFold)
-(branch `zig-engine` @ `697d8e9`, Apache-2.0) with one more image layer on top: her checkpoint, her TensorFold v0.6.0
-Python engine with her 106 patches and her scripts are all used unchanged, and the layer changes 30 TensorFold files
+(Apache-2.0) with one more image layer on top: her checkpoint, her TensorFold v0.6.0 **Python engine** with her 106
+patches and her scripts are all used unchanged. The fork starts from her commit `697d8e9`; that commit sits on her
+branch named `zig-engine`, which holds the four-Spark scripts for both of her engines, but her Zig engine is not
+used here. The layer changes 31 TensorFold files
 so that a long prompt is read **about 70-85% faster** than her build reads it on the same four Sparks. It is for
 people who already run, or want to run, Mia's four-Spark ring and send it long prompts: agents, documents, code bases.
 
