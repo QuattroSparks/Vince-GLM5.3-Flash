@@ -25,6 +25,11 @@ windows of 32 rows (a reply that repeats a file decodes about 28% faster), malfo
 heat bands that pause a long prompt while the head Spark runs hot. No reply changes
 ([v2.4](#v24-what-tensorfold-126-has-for-glm-on-this-engine)).
 
+v2.5 (2026-11-11, the current image) adds one optional switch, off by default: tool-call rules for harnesses that
+bring none of their own. With the defaults every reply is v2.4's. The same day the fast build was compared with
+Mia's stock build on four of sparkDash's quality categories: level on all four
+([v2.5](#v25-optional-tool-call-rules-and-a-quality-comparison-with-stock)).
+
 Everything underneath is documented by Mia in [`README-Mia.md`](README-Mia.md): the ring's cabling and addresses, the
 KV pool, vision, the API, every setting. Whose work each part is: [Credits](#credits) and
 [`vince/CREDITS.md`](vince/CREDITS.md).
@@ -180,7 +185,7 @@ clock.
 | 60 arithmetic problems, thinking off (a fragile test) | 15/60 | 15/60 |
 
 In exact mode every greedy reply is bit-identical to Mia's stock build. In fast mode, replies started by many users at
-once are identical to the same replies run alone. v2, v2.1, v2.2, v2.3 and v2.4 leave fast mode's replies as v1's were (five fixed
+once are identical to the same replies run alone. v2, v2.1, v2.2, v2.3, v2.4 and v2.5 leave fast mode's replies as v1's were (five fixed
 greedy replies, alone and all at once, after every step; v2.3 also on 25 short prompts), which is why the suite was not run again for them.
 
 ### Decode
@@ -399,6 +404,39 @@ identical to the long and the short reference sets, alone and all at once; 32k p
 with well-formed and malformed calls, whole and streamed character by character; no malformed call was provoked
 from the live model.
 
+### v2.5: optional tool-call rules, and a quality comparison with stock
+
+**Tool calls.** sparkDash's Tool Eval Bench ([tool-eval-bench](https://github.com/SeraphimSerapis/tool-eval-bench)
+3.0.1.dev7, 69 scenarios, seed 42, one run each) on this recipe:
+
+| Build | Score | Pass / partial / fail |
+|---|---|---|
+| Fast mode | 96 | 65 / 2 / 2 |
+| Exact mode (replies as stock) | 95 | 65 / 1 / 3 |
+| Fast mode, `TF_GLM_TOOL_RULES=1` | 99 | 68 / 1 / 0 |
+
+Two scenarios fail in fast and exact mode alike, so they are the model's habits, not the fast build's: a required
+argument sent empty, and an email sent in the same turn as the calendar event it announces. `TF_GLM_TOOL_RULES=1`
+appends four short rules to the system message of a request that offers tools (`TOOL_RULES` in
+`vince/overlay/tensorfold/server/tools.py`; `TF_GLM_TOOL_RULES_TEXT` replaces the text); requests without tools are
+untouched. It is **off by default**: the rules were tuned on this one benchmark, the score moves by a point or two
+with any small change of the prompt (98-99 over three variants of the rules), and a harness's own system prompt is
+the better place for such rules. A harness that wants one call a turn can send the standard
+`parallel_tool_calls: false`, which the server honours.
+
+**Quality against stock.** sparkDash 2.70.0's quality bench, four categories, 4 requests at once, one run a build
+(2026-11-11):
+
+| Category | Fast mode | Mia's stock build |
+|---|---|---|
+| QA | 127 / 150 | 124 / 150 |
+| Instruction following | 31 / 40 | 31 / 40 |
+| Arithmetic | 40 / 40 | 40 / 40 |
+| Tracking | 40 / 40 | 40 / 40 |
+
+In QA 141 of the 150 replies are identical and three differ in fast mode's favour, which is within noise. In
+instruction following each build passes four questions the other fails. The other sparkDash categories were not run.
+
 Already here, or equivalent, so nothing to port: 16-row windows with a tuned DFlash2 rule, the experts' prefetch and
 non-coherent loads, small gathers over RoCE, prompt rows split between the ranks, kept prompt states on a 64-token
 grid. Read and not taken: upstream's multi-stream DFlash2 fix (#2793) repairs a pricing rule this engine does not
@@ -444,9 +482,10 @@ with its output.
 - **A fresh install was not run end to end.** The Sparks it was built on already had Mia's image and checkpoint; the
   steps of "Quick start" from an empty machine follow Mia's documented flow but were not replayed.
 - **Exact mode was not started again with the later switches.** Its bit-identity with stock was checked on v1
-  (2026-11-08). The two decode switches of v2.1 are on in exact mode because they change no arithmetic, but exact
-  mode was not booted with them, and its prefill figures are v1's.
-- **The quality suite was not re-run after v1.** v2, v2.1, v2.2, v2.3 and v2.4 give replies identical to the build that
+  (2026-11-08). The two decode switches of v2.1 are on in exact mode because they change no arithmetic. Exact mode
+  was booted on v2.4 on 2026-11-11 and ran the 69 tool-call scenarios, but its bit-identity with stock was not
+  re-checked then, and its prefill figures are v1's.
+- **The quality suite was not re-run after v1.** v2, v2.1, v2.2, v2.3, v2.4 and v2.5 give replies identical to the build that
   passed it, so its results stand. The concurrency table and the 195k needle were last run on v2.2.
 - **No KL divergence of its own.** Fast mode's distance from stock is known only through the quality checks above.
 - **A 12,288-row start hung once**, on 2026-11-08, on v1. On v2.2 the same size ran a soak without a hang (18 prompts
