@@ -1,5 +1,104 @@
 # Changelog
 
+## Vince GLM5.3 Flash v2.4 (2026-11-11): TensorFold 1.2.6's GLM changes, adapted to this engine at TP=4
+
+Image `tensorfold-glm53:vince-v2.4` (overlay label `90e14f29ea76`). Upstream TensorFold
+(v1.2.6 and main to 6b739dd5) was read for every GLM change; three were missing here and are now in, none changes a reply:
+
+- **32-row verify windows** (upstream #2257's width; this engine had the code, the recipe capped it at 16):
+  `TF_GLM_MAX_ROWS=32`, `COPY_MAX=31`, `WIDE_GRAPHS=16,32` in fast mode. A reply that repeats text it has seen takes
+  up to 31 copied tokens a round: a quoted 230-line file 252 -> 323-326 tok/s, the same file with one rename 244 ->
+  311-316 (`vince/tools/editbench.py`, 5 runs, replies identical). `start.sh` now lets `COPY_MAX` reach
+  `TF_GLM_MAX_ROWS` - 1 and `scripts/config.sh` reads `WIDE_GRAPHS`.
+- **Malformed GLM tool calls stay text** (upstream #2801 / #2831): an `<arg_value>` that runs into the next
+  `<arg_key>` became a call with the next pair's markup inside the argument (valid JSON, corrupt arguments), whole and
+  streamed, and a last value that never closed was dropped. Both now stay in `content` (`server/tools.py`,
+  `cuda/reply_text.py`). Well-formed calls parse as before (`tools/toolcheck.py` OK).
+- **Heat bands** (upstream's `TF_HEAT_HIGH` / `TF_HEAT_LOW`): `TF_GLM_HEAT_HIGH=78`, `TF_GLM_HEAT_LOW=72` in fast and
+  exact mode. The head (rank 0) holds a prompt's next chunk while its GPU reads above 78 C, until 72 C or less; decode
+  is never held and tokens do not change (`families/glm5_next/cuda/heat.py`, one hook in `multi.py`). Three cold 93k
+  prompts back to back: 4,079 / 4,084 / 3,909 tok/s, head peak 79 C, 1.0 s waited in all. `0` / `0` turns them off.
+
+Checked on the recipe's own start: replies identical to the long and the short reference sets, concurrent == solo;
+decode 72.9 prose / 97.9 code (whole request); 32k prefill 4,109-4,115 tok/s; 19.3 / 17.9 / 22.2 / 21.7 GiB free
+after load; no error line, no thermal slowdown (`vince/results/checks-v2.4-recipe-start.txt`). Measured and left
+off: `TF_GLM_EXL3_DEC_ORDER=1` (74.4 / 99.9 against 74.4 / 100.2 without). Not ported, with reasons, in README.md.
+Not re-run for v2.4: the quality suite, the concurrency table, the 195k needle (no arithmetic changed).
+
+Optional, not started by the recipe: `vince/extras/parakeet/install.sh` installs NVIDIA's Parakeet TDT 0.6B v3
+speech-to-text on one Spark behind an OpenAI-compatible `/v1/audio/transcriptions`, for a voice chat (local only by
+default, an optional key, about 4.5 GiB of memory).
+
+Measured with sparkDash 2.70.0 the same day (cold, no cached tokens): prefill 3,463 / 4,154 / 4,167 tok/s at 2k / 8k /
+64k (2,859 / 3,905 / 4,134 as tokens over the whole time to first token); decode 93.3 / 132.6 / 223.8 prose and
+138.1 / 189.9 / 289.5 code at 1 / 2 / 8 streams (`vince/results/sparkdash-v2.4-*.json`).
+
+## Vince GLM5.3 Flash: prepared for publication (2026-11-10)
+
+No change to what is served: `DRY_RUN=1 ./start-vince.sh` prints the same docker commands as before, in all three
+modes.
+
+- This setup's own values (ssh targets, addresses) are out of git: `scripts/local.sh` is yours, made from
+  `vince/local.sh.example`. The three modes moved, unchanged, to `vince/modes.sh`.
+- `start-vince.sh`: `--help`, checks of the settings, the mode, ssh to the workers and the image before anything is
+  touched, and exit codes (2 settings, 3 ssh, 4 image). Its hint for a missing base image now names a command that
+  prepares all four Sparks (`VINCE_MODE=stock ./start-vince.sh`).
+- `README.md` rewritten: requirements, quick start, results, modes, limits, troubleshooting. Its headline prefill
+  figures are v2.3's, with v2.2 beside them as measured with all four GPUs at 2,190 MHz (8k / 16k / 32k / 64k / 128k
+  3,762 / 3,832 / 3,999 / 3,973 / 3,984 tok/s, `vince/results/prefill-v2.2-2190mhz.json`); the v2.2 figures below
+  were taken with the head's GPU at 2,288 MHz.
+- `vince/CREDITS.md` rewritten as one table (whose work, where it is used here, source, licence) and a list of what
+  is new in this fork; `NOTICE` gains a section stating this fork's changes.
+- `vince/tools/dbench.py` reads sparkDash's prompts from `SPARKDASH_DIR` (default `~/sparkDash`).
+- `vince/tools/thermal.py` reads the workers from `scripts/local.sh`.
+
+## Vince GLM5.3 Flash v2.3 (2026-11-10): faster short prompts, the same replies
+
+Image `tensorfold-glm53:vince-v2.3` (`vince/build-image.sh`). Fast mode adds
+`TF_GLM_PF_TAIL_MERGE=1` (a prompt's last 1-63 rows in the chunk before them), `TF_GLM_PROMPT_MICROBATCH_MIN_ROWS=960`
+(halves from 1,920 rows) and `TF_GLM_PF_BALANCE=1` (equal chunks). Same session against v2.2's settings, all four GPUs
+at the 2,200 MHz cap, 5 runs: first token at 1k / 2k / 3k / 4k / 6k tokens 495 / 847 / 1,124 / 1,424 / 1,693 ms ->
+449 / 727 / 950 / 1,158 / 1,625 ms; 12k / 16k / 20k 3,877 / 3,885 / 3,980 -> 3,921 / 3,980 / 4,036 tok/s; 32k / 64k /
+128k 4,039 / 4,071 / 3,918 -> 4,088 / 4,087 / 4,020. Replies identical on the long and the new short reference set,
+solo and concurrent; kept states equivalent; decode 72.0-72.4 prose / 96.2-96.6 code; soak clean; no thermal slowdown
+counted (benchmarks pause at 75 C). Exact and stock modes unchanged. Chunk cap stays 12,288 rows.
+
+## Vince GLM5.3 Flash v2.2 (2026-11-10): prefill 4,000 tok/s from 32k up, the same replies
+
+Image `tensorfold-glm53:vince-v2.2` (`vince/build-image.sh`). Fast mode now takes 12,288-row prompt chunks
+(`TF_GLM_PREFILL_ROWS=12288`) and three more switches that keep every bit: `TF_GLM_PF_KQ=1` (quantized rows shipped
+before KDA layers, new), `TF_GLM_PF_XCHG_BCAST=1` (a row broadcast staged once, new) and `TF_GLM_PF_FILL_WHOLE=1`.
+Measured 2026-11-10 afternoon on the dev image of the same sources, 5 runs a size: 8k / 16k / 32k / 64k / 128k 3,813 /
+3,899 / 4,052 / 4,083 / 4,035 tok/s (v2.1 the same afternoon: 3,440-3,517 / 3,590-3,741 / 3,778-3,794); the five
+greedy replies identical to v1's after every step, solo and all at once; the 195k needle correct in 48.7 s (56.7);
+decode 72.1 prose / 96.2 code; tool call OK; a soak of odd prompt sizes without the hang 12,288 rows gave on
+2026-11-08. `vince/tools/switches.sh` no longer writes `fill_whole` (it would switch the setting off). Exact mode:
+unchanged settings (6,144 rows, none of the same-bits switches) on the new image; stock unchanged. Not re-run for
+v2.2: the quality suite (the replies are bit-identical to v1's).
+
+## Vince GLM5.3 Flash v2.1 (2026-11-10): decode +3-4%, the same replies
+
+Image `tensorfold-glm53:vince-v2.1` (`vince/build-image.sh`). Two switches, on in fast and exact mode, that change no arithmetic:
+`TF_GLM_DEC_CPUS=big` (a rank's threads on the ten big cores) and `TF_GLM_DEC_MSG=1` (a decode round's message to the
+other ranks as one RoCE frame instead of two NCCL all-gathers). Measured 2026-11-10 in one session, 6 runs each, one
+request: story prose (`decode_check.py`) 70.5 -> 72.9 tok/s (72.7-73.2), `conc_bench.py` c1 68.6 -> 71.0, code 93.7 ->
+97.4, sparkDash's prose prompt after the first token 87.0 -> 90.4 (README "Decode at one request" explains the two
+yardsticks). The five fixed greedy replies are identical to v2's, solo and all at once, with fast mode's prefill
+switches on. `build-image.sh` now bounds the build client (it sometimes does not return on a worker after tagging) and checks the
+image's label instead. Not done for v2.1: an exact-mode boot with the two switches, the quality suite, the concurrency
+table and the 195k needle.
+
+## Vince GLM5.3 Flash v2 (2026-11-10): fast mode +10% prefill, the same replies
+
+Image `tensorfold-glm53:vince-v2` (`vince/build-image.sh`).
+Fast mode turns on five switches that keep every bit of v1's fast build: `TF_GLM_PF_TAP_TAIL`, `TF_GLM_PF_LEAN`,
+`TF_GLM_PF_PART16`, `TF_GLM_PF_OWN_ROUTER`, `TF_GLM_PF_ZC` (README "v2"). Measured 2026-11-10, same session, fixed
+prompts: 8k / 16k / 32k / 64k / 128k 3,390 / 3,703 / 3,766 / 3,831 / 3,770 tok/s against v1's settings 3,125 / 3,362 /
+3,422 / 3,453 / 3,397; the five greedy replies identical to v1's, solo and all at once; decode 70.3 prose / 94.2 code
+(v1's settings 69.4 / 94.1); tool call OK. Exact mode: v1's settings on the new image (the five switches are not
+re-verified there yet). Stock mode unchanged. Not re-run for v2: the quality suite, the concurrency table and the
+195k needle (the replies are bit-identical to v1's, so v1's results stand).
+
 Every change to this recipe, newest first. Each release names the image it serves: `scripts/prepare.sh` pulls
 `ghcr.io/miaai-lab/glm-5.3-flash-exl3-2x-dgx-sparks-tensorfold` by the digest pinned in `scripts/config.sh`.
 

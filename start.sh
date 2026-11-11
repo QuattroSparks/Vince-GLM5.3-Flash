@@ -95,7 +95,8 @@ fi
 DRY=0; [[ "${DRY_RUN:-0}" == 1 ]] && DRY=1
 [[ "$KV_POOL_GIB" =~ ^[0-9]+([.][0-9]+)?$ ]] || die "KV_POOL_GIB is a number of GiB, not $KV_POOL_GIB"
 [[ "$MEMORY_RESERVE_GIB" =~ ^[0-9]+([.][0-9]+)?$ ]] || die "MEMORY_RESERVE_GIB is a number of GiB, not $MEMORY_RESERVE_GIB"
-[[ "$COPY_MAX" =~ ^([1-9]|1[0-5])$ ]] || die "COPY_MAX is 1 to 15, not $COPY_MAX"
+_copy_most=$(( ${TF_GLM_MAX_ROWS:-16} - 1 ))   # a verify window is the pending token plus the drafts (TF_GLM_MAX_ROWS rows, 16 unset)
+[[ "$COPY_MAX" =~ ^[1-9][0-9]?$ ]] && (( COPY_MAX <= _copy_most )) || die "COPY_MAX is 1 to $_copy_most, not $COPY_MAX"
 [[ "$DRAFT_POLICY" == f* ]] || die "DRAFT_POLICY is a DFlash2 policy (fc5:0.3, fnc7:0.3, fcost7:noisy ...), not $DRAFT_POLICY"
 # decode settings the ranks read at load (scripts/config.sh): checked here so a typo fails before anything is stopped
 [[ "$TF_GLM_MULTI_LONE" =~ ^[01]$ ]] || die "TF_GLM_MULTI_LONE is 0 or 1, not $TF_GLM_MULTI_LONE"

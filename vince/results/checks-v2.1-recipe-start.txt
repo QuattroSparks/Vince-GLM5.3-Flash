@@ -1,0 +1,25 @@
+was: tensorfold-glm53:v0.6.0-pf2
+LIVE: tensorfold-glm53:vince-v2.1
+[tensorfold] TF_GLM_DEC_CPUS=big: this rank's threads run on CPUs 5,6,7,8,9,15,16,17,18,19
+[tensorfold] --parallel 8: up to 8 requests decode together, their caches in one pool of 5834752 tokens (each up to 1048576), their verify windows 64 rows toget
+TF_GLM_DEC_CPUS=big TF_GLM_DEC_MSG=1 TF_GLM_PF_EY16=1 TF_GLM_PF_FP8=1 TF_GLM_PF_LEAN=1 TF_GLM_PF_OWN_ROUTER=1 TF_GLM_PF_PART16=1 TF_GLM_PF_TAP_TAIL=1 TF_GLM_PF_XCHG=1 TF_GLM_PF_ZC=1 
+== same bits vs replies-default.json
+ALL IDENTICAL
+== concurrent == solo
+CONCURRENT == SOLO
+== decode, one request (saved v2.1: prose 72.9 / code 97.4 tok/s whole request; v2 70.3 / 94.2)
+decode prose: median 72.6 tok/s (72.5, 73.3, 72.6)
+decode code: median 97.5 tok/s (97.2, 97.5, 97.7)
+== prefill (saved: 3,390 / 3,703 / 3,766 tok/s fast (v2; v1 3,112 / 3,384 / 3,437), 2,627 / 2,818 / 2,842 exact)
+size 32768: prompt_tokens 32925 cached 0 ttft 8.680s -> 3,793 tok/s
+size 32768: prompt_tokens 32936 cached 0 ttft 8.664s -> 3,802 tok/s
+size 32768: prompt_tokens 32958 cached 0 ttft 8.686s -> 3,794 tok/s
+== size 32768: median 3,794 tok/s (min 3,793, max 3,802)
+results in ~/.cache/vince-glm53-check/20261110-135428
+[v2.1] story    median   73.0  min   72.7  max   73.3  (72.8, 73.0, 72.7, 73.3, 73.2, 72.9)
+[v2.1] conc1    median   71.1  min   69.6  max   75.6  (70.7, 69.6, 70.6, 75.6, 74.4, 71.5)
+[v2.1] sdprose  median   90.2  min   90.1  max   90.4  (90.3, 90.4, 90.2, 90.4, 90.1, 90.1)
+[v2.1] sd07     median   91.3  min   90.6  max   91.9  (91.2, 91.6, 90.6, 91.2, 91.9, 91.3)
+[v2.1] code     median   97.0  min   96.7  max   97.4  (97.4, 97.0, 96.7)
+toolcheck: OK: tags is a JSON array
+session 3 done

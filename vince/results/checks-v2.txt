@@ -1,0 +1,18 @@
+[router2] bits: ALL IDENTICAL
+[zc1] bits: ALL IDENTICAL
+[zc1p] bits: ALL IDENTICAL
+[base4] bits: ALL IDENTICAL
+[combo] bits: ALL IDENTICAL
+[combo_nozc] bits: ALL IDENTICAL
+[base5] bits: ALL IDENTICAL
+[combo_b] bits: ALL IDENTICAL
+[base_long] bits: ALL IDENTICAL
+[combo_long] bits: ALL IDENTICAL
+[combo] conc_test: CONCURRENT == SOLO
+[combo] decode: decode prose: median 70.3 tok/s (70.3, 70.3, 70.4)
+[combo] decode: decode code: median 94.2 tok/s (92.9, 94.2, 94.3)
+[combo] toolcheck: tool call add_tags({"doc_id": 42, "tags": ["urgent", "finance", "q3"]})
+[combo] toolcheck: toolcheck: OK: tags is a JSON array
+12:02:33 == baseline decode (switches off)
+[base] decode: decode prose: median 69.4 tok/s (69.4, 69.4, 69.9)
+[base] decode: decode code: median 94.1 tok/s (92.9, 94.1, 94.3)

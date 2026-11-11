@@ -1,0 +1,43 @@
+[start.sh] OK: 'OK', 2 tokens, 0.0947 s
+[decm] LIVE on dec
+[tensorfold] TF_GLM_DEC_CPUS=big: this rank's threads run on CPUs 5,6,7,8,9,15,16,17,18,19
+[decm-big] story    median   72.1  min   71.8  max   72.5  (72.5, 71.9, 72.5, 72.0, 72.2, 71.8)
+[decm-big] conc1    median   70.3  min   69.0  max   74.8  (70.0, 69.0, 69.7, 74.8, 72.9, 70.6)
+[decm-big] sdprose  median   89.1  min   80.9  max   89.8  (82.8, 80.9, 89.4, 89.8, 89.3, 88.8)
+[decm-big] sd07     median   90.3  min   81.9  max   90.7  (90.3, 90.5, 90.3, 81.9, 89.0, 90.7)
+[decm-big] code     median   95.9  min   95.6  max   95.9  (95.9, 95.9, 95.6)
+[decm-all] story    median   70.5  min   67.8  max   71.1  (71.1, 67.8, 69.1, 70.9, 70.2, 70.7)
+[decm-all] conc1    median   68.6  min   64.9  max   71.0  (68.3, 67.3, 64.9, 70.7, 71.0, 68.8)
+[decm-all] sdprose  median   87.0  min   84.3  max   87.4  (86.7, 87.4, 87.4, 87.2, 84.3, 85.5)
+[decm-all] sd07     median   88.2  min   87.9  max   88.8  (87.9, 88.0, 88.0, 88.8, 88.4, 88.8)
+[decm-all] code     median   93.7  min   88.2  max   94.0  (88.2, 93.7, 94.0)
+[start.sh] OK: 'OK', 2 tokens, 0.0278 s
+[decm-msg] LIVE on dec
+[tensorfold] TF_GLM_DEC_CPUS=big: this rank's threads run on CPUs 5,6,7,8,9,15,16,17,18,19
+[tensorfold] --parallel 8: up to 8 requests decode together, their caches in one pool of 5834752 tokens (each up to 1048576), their verify windows 64 rows together (TF_GLM_MULTI_WINDOW); DFlash2 drafts, prompt chunks of 
+[decm-big-msg] story    median   72.9  min   72.5  max   73.3  (72.5, 73.3, 72.7, 73.3, 72.5, 73.2)
+[decm-big-msg] conc1    median   71.0  min   69.5  max   75.4  (70.8, 69.5, 70.8, 75.4, 74.1, 71.1)
+[decm-big-msg] sdprose  median   90.6  min   90.1  max   91.3  (90.1, 90.8, 90.1, 91.3, 90.5, 90.7)
+[decm-big-msg] sd07     median   91.9  min   91.6  max   92.1  (91.6, 92.1, 91.9, 91.8, 92.0, 91.7)
+[decm-big-msg] code     median   97.6  min   97.1  max   97.7  (97.1, 97.6, 97.7)
+[decm-big-msg-combo] story    median   72.9  min   72.7  max   73.2  (72.8, 73.2, 72.7, 72.8, 72.9, 73.2)
+[decm-big-msg-combo] conc1    median   71.0  min   69.9  max   75.4  (70.9, 69.9, 70.9, 75.4, 74.5, 71.1)
+[decm-big-msg-combo] sdprose  median   90.4  min   90.0  max   90.7  (90.7, 90.5, 90.1, 90.4, 90.0, 90.6)
+[decm-big-msg-combo] sd07     median   91.6  min   91.5  max   91.9  (91.5, 91.5, 91.7, 91.5, 91.8, 91.9)
+[decm-big-msg-combo] code     median   97.4  min   97.3  max   97.6  (97.6, 97.4, 97.3)
+== same bits (combo on, big cores)
+ALL IDENTICAL
+CONCURRENT == SOLO
+ours  prose c1: post-first   90.1 agg (  90.1/req), whole   88.3 | rounds  146 tok/round 2.74 drafted/round 2.73 acc 0.63 round ms 30.4 ttft 102 ms sha 5dbe7b
+ours  prose c2: post-first  142.2 agg (  72.1/req), whole  137.9 | rounds  249 tok/round 3.21 drafted/round 3.07 acc 0.72 round ms 45.2 ttft 174 ms sha d65f58,65a2c4
+ours  story c1: post-first   73.9 agg (  73.9/req), whole   72.8 | rounds  205 tok/round 1.95 drafted/round 1.60 acc 0.59 round ms 26.3 ttft 90 ms sha 4dd46e
+ours  story c2: post-first  106.0 agg (  54.3/req), whole  104.6 | rounds  405 tok/round 1.98 drafted/round 1.69 acc 0.57 round ms 37.2 ttft 119 ms sha dcac06,5527f5
+ours  code  c1: post-first  151.3 agg ( 151.3/req), whole  144.3 | rounds   61 tok/round 6.56 drafted/round 6.30 acc 0.88 round ms 43.1 ttft 135 ms sha a351e2
+ours  code  c2: post-first  193.1 agg (  98.1/req), whole  184.0 | rounds  125 tok/round 6.40 drafted/round 6.33 acc 0.85 round ms 66.1 ttft 204 ms sha a351e2,05bba9
+sd    prose c1: post-first   91.6 agg (  91.6/req), whole   89.5 | rounds  131 tok/round 3.05 drafted/round 3.61 acc 0.57 round ms 33.3 ttft 109 ms sha 840c6c
+sd    prose c2: post-first  134.0 agg (  67.8/req), whole  130.2 | rounds  240 tok/round 3.33 drafted/round 3.98 acc 0.58 round ms 49.6 ttft 187 ms sha 7ad719,d850fb
+sd    story c1: post-first   79.0 agg (  79.0/req), whole   77.7 | rounds  168 tok/round 2.38 drafted/round 2.61 acc 0.53 round ms 30.2 ttft 99 ms sha 814e9e
+sd    story c2: post-first  107.6 agg (  55.6/req), whole  105.5 | rounds  350 tok/round 2.29 drafted/round 2.38 acc 0.54 round ms 42.3 ttft 161 ms sha 21fa95,569225
+sd    code  c1: post-first   98.0 agg (  98.0/req), whole   97.3 | rounds  122 tok/round 3.28 drafted/round 3.47 acc 0.65 round ms 33.4 ttft 37 ms sha 3ce0cc
+sd    code  c2: post-first  133.4 agg (  70.8/req), whole  132.7 | rounds  223 tok/round 3.59 drafted/round 3.87 acc 0.67 round ms 53.7 ttft 48 ms sha 3ce0cc,5dcab3
+session 2 done; server left on decm with TF_GLM_DEC_CPUS=big TF_GLM_DEC_MSG=1, switches off

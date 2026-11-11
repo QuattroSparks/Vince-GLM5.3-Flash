@@ -1,0 +1,4 @@
+# This setup's own values (ssh targets, addresses): copy vince/local.sh.example to scripts/local.sh and fill it in.
+scripts/local.sh
+__pycache__/
+*.pyc

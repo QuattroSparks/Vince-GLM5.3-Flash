@@ -1,0 +1,127 @@
+{
+ "20": {
+  "content": "engine",
+  "reasoning": "",
+  "tokens": 64
+ },
+ "60": {
+  "content": "The word \"upon\" appears most often in the notes.",
+  "reasoning": "",
+  "tokens": 105
+ },
+ "100": {
+  "content": "The word \"doctor\" appears most often, appearing 4 times.",
+  "reasoning": "",
+  "tokens": 147
+ },
+ "200": {
+  "content": "The most frequent word in the notes is \"its\" (appearing 6 times), with \"its\" being the top word, followed closely by \"well,\" \"over,\" \"about,\" \"right,\" \"world,\" \"valley",
+  "reasoning": "",
+  "tokens": 247
+ },
+ "230": {
+  "content": "The word \"engine\" appears most often, appearing 5 times.",
+  "reasoning": "",
+  "tokens": 273
+ },
+ "500": {
+  "content": "The most frequent words are \"doctor\" (9 times), \"knew\" (9 times), and \"place\" (9 times).",
+  "reasoning": "",
+  "tokens": 549
+ },
+ "1000": {
+  "content": "The most frequent words in the text are common function words like \"the,\" \"and,\" \"to,\" \"of,\" \"a,\" \"in,\" \"that,\" \"is,\" \"was,\" \"he,\" \"for,\" \"it,\"",
+  "reasoning": "",
+  "tokens": 1047
+ },
+ "1010": {
+  "content": "The most frequent words in the text are \"the,\" \"and,\" \"to,\" \"of,\" \"a,\" \"in,\" \"that,\" \"is,\" \"was,\" \"he,\" \"for,\" \"it,\" \"with,\" \"",
+  "reasoning": "",
+  "tokens": 1059
+ },
+ "1990": {
+  "content": "The most frequent word in the text is \"the.\"",
+  "reasoning": "",
+  "tokens": 2045
+ },
+ "2000": {
+  "content": "The most frequent words are \"the,\" \"and,\" \"of,\" \"to,\" \"in,\" \"that,\" \"is,\" \"was,\" \"he,\" and \"for.\"",
+  "reasoning": "",
+  "tokens": 2051
+ },
+ "2030": {
+  "content": "The most frequent words in the text are \"the,\" \"and,\" \"of,\" \"to,\" \"in,\" \"a,\" \"is,\" \"that,\" \"it,\" and \"was.\"",
+  "reasoning": "",
+  "tokens": 2084
+ },
+ "3000": {
+  "content": "The most frequent words in the text are common function words, especially \"the,\" \"and,\" \"to,\" \"of,\" \"a,\" \"in,\" \"that,\" \"is,\" \"was,\" \"he,\" \"for,\" \"it",
+  "reasoning": "",
+  "tokens": 3064
+ },
+ "3020": {
+  "content": "The most frequent words are \"the,\" \"and,\" \"to,\" \"of,\" \"a,\" \"in,\" \"that,\" \"is,\" \"was,\" \"he,\" \"for,\" \"it,\" \"with,\" \"as,\" \"",
+  "reasoning": "",
+  "tokens": 3080
+ },
+ "3030": {
+  "content": "The most frequent words in the text are common function words, with \"the\" appearing most often, followed closely by \"and,\" \"to,\" \"of,\" \"a,\" and \"in.\"",
+  "reasoning": "",
+  "tokens": 3093
+ },
+ "4000": {
+  "content": "The most frequent words in the text are common function words, with \"the\" appearing most often, followed closely by \"and,\" \"to,\" \"of,\" \"a,\" \"in,\" \"that,\" \"is,\" \"was,\" \"",
+  "reasoning": "",
+  "tokens": 4066
+ },
+ "4090": {
+  "content": "The most frequent words are common function words, with \"the\" appearing most often, followed by words like \"of,\" \"and,\" \"to,\" \"in,\" \"that,\" \"was,\" \"it,\" \"he,\" and \"for",
+  "reasoning": "",
+  "tokens": 4154
+ },
+ "5000": {
+  "content": "The most frequent words are \"the,\" \"and,\" \"of,\" \"to,\" \"in,\" \"that,\" \"was,\" \"it,\" \"for,\" and \"on.\"",
+  "reasoning": "",
+  "tokens": 5071
+ },
+ "6000": {
+  "content": "Looking at the text, the most frequent words are common function words, with **\"the\"** appearing most often, followed closely by words like \"and,\" \"to,\" \"of,\" \"in,\" \"was,\" \"that,\" \"",
+  "reasoning": "",
+  "tokens": 6066
+ },
+ "8000": {
+  "content": "The most frequent words are common function words \u2014 \"the,\" \"and,\" \"to,\" \"of,\" \"a,\" \"in,\" \"that,\" \"is,\" \"was,\" \"he,\" \"for,\" \"it,\" \"with,\"",
+  "reasoning": "",
+  "tokens": 8080
+ },
+ "9000": {
+  "content": "The most frequent words in the text are common function words such as \"the,\" \"and,\" \"of,\" \"to,\" \"in,\" \"that,\" \"it,\" \"was,\" \"for,\" and \"on.\"",
+  "reasoning": "",
+  "tokens": 9088
+ },
+ "12290": {
+  "content": "The most frequent words in the text are common function words, with \"the\" appearing most often, followed closely by \"and,\" \"of,\" \"to,\" \"in,\" \"that,\" \"is,\" \"was,\" \"for,\" \"",
+  "reasoning": "",
+  "tokens": 12397
+ },
+ "12300": {
+  "content": "Looking at the text, the word \"the\" appears most frequently, followed by words like \"and\", \"to\", \"of\", \"in\", \"was\", \"that\", \"it\", \"he\", and \"for\".",
+  "reasoning": "",
+  "tokens": 12404
+ },
+ "14000": {
+  "content": "the\n\nThe word \"the\" appears most frequently in the text.",
+  "reasoning": "",
+  "tokens": 14119
+ },
+ "16370": {
+  "content": "The most frequent words in the text are common function words, with **\"the\"** appearing most often, followed closely by **\"and,\" \"of,\" \"to,\" \"in,\" \"a,\" \"is,\" \"that,\" \"",
+  "reasoning": "",
+  "tokens": 16482
+ },
+ "16400": {
+  "content": "**\"the\"** is the most frequent word, with **\"and\"** close behind.",
+  "reasoning": "",
+  "tokens": 16516
+ }
+}

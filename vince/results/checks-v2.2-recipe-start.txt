@@ -1,0 +1,29 @@
+LIVE: glm53-flash-tf tensorfold-glm53:vince-v2.2
+TF_GLM_PF_KQ=1 TF_GLM_EXL3_DEC_ORDER=0 TF_GLM_PF_FILL_WHOLE=1 TF_GLM_DEC_CPUS=big TF_GLM_DEC_MSG=1 TF_GLM_PREFILL_ROWS=12288 TF_GLM_PF_XCHG_BCAST=1 
+idle total 1
+== same bits vs replies-default.json
+ALL IDENTICAL
+== concurrent == solo
+CONCURRENT == SOLO
+== decode, one request (saved v2.1: prose 72.9 / code 97.4 tok/s whole request; v2 70.3 / 94.2)
+decode prose: median 72.5 tok/s (72.1, 72.8, 72.5)
+decode code: median 97.0 tok/s (97.1, 97.0, 94.7)
+== prefill (saved: 3,813 / 3,899 / 4,052 tok/s fast (v2.2; v2 3,390 / 3,703 / 3,766; v1 3,112 / 3,384 / 3,437), 2,627 / 2,818 / 2,842 exact)
+size 32768: prompt_tokens 32925 cached 0 ttft 8.181s -> 4,024 tok/s
+size 32768: prompt_tokens 32936 cached 0 ttft 8.165s -> 4,034 tok/s
+size 32768: prompt_tokens 32958 cached 0 ttft 8.175s -> 4,031 tok/s
+== size 32768: median 4,031 tok/s (min 4,024, max 4,034)
+results in ~/.cache/vince-glm53-check/20261110-160312
+[tensorfold] pf switches: shared_whole 0, fill_whole 1, gemm 0 (min rows 256), kda_overlap 0, tap_tail 1, lean 1, part16 1, pf8_tile 0 (<= 64 blocks), no_reuse 1
+decode prose: median 72.5 tok/s (72.5, 72.5, 72.7)
+decode code: median 97.0 tok/s (97.0, 97.0, 97.2)
+decode prose: median 72.8 tok/s (72.6, 72.8, 72.9)
+decode code: median 96.4 tok/s (96.2, 97.1, 96.4)
+== size 8192: median 3,810 tok/s (min 3,768, max 3,818, n 3)
+== size 16384: median 3,855 tok/s (min 3,843, max 3,887, n 3)
+== size 32768: median 4,037 tok/s (min 4,029, max 4,041, n 3)
+== size 65536: median 4,060 tok/s (min 4,057, max 4,064, n 3)
+== size 131072: median 4,018 tok/s (min 4,011, max 4,023, n 3)
+discarded 0 runs other requests got into
+clocks: 2288, 73 | 2190, 68 | 2184, 71 | 2190, 68 | 
+validation done 16:09

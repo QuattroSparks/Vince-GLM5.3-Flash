@@ -161,3 +161,82 @@ Third-party software in the image
   work only (as described above), not the software in the image.
 
 See CREDITS.md for everyone this project builds on.
+
+========================================================================================================================
+Vince GLM5.3 Flash (this fork): what was changed
+========================================================================================================================
+
+Vince GLM5.3 Flash is a modified version of the project above (branch zig-engine at commit 697d8e9). Everything above
+this line is Mia's AI Lab's NOTICE, unchanged. This fork's own changes are licensed under the Apache License,
+Version 2.0 (see LICENSE). As Apache-2.0, section 4 asks, the changes are:
+
+  Added: start-vince.sh, stop-vince.sh, .gitignore, .env (two of the project's own settings switched on) and the
+  folder vince/ (modes.sh, local.sh.example, build-image.sh, check.sh, CREDITS.md, tools/, results/, overlay/ and the
+  diff glm53-vince-v2.3.patch).
+  Changed: README.md is this fork's (the project's README is kept as README-Mia.md); CHANGELOG.md has this fork's
+  entries on top; this section of NOTICE.
+  Not changed: patches/, zig/, scripts/, start.sh and the other start and stop scripts, docs/, tests/, tools/,
+  CREDITS.md, LICENSE.
+
+vince/overlay (modified TensorFold files)
+  The files under vince/overlay/tensorfold/ are files of TensorFold v0.6.0 as this project's patches/ leave them,
+  modified further by this fork; vince/build-image.sh copies them over the installed package in an image layer on
+  top of the project's image. vince/glm53-vince-v2.3.patch is the diff of this fork's changes against that package.
+  They stay under TensorFold's licenses as described above (Apache-2.0, and for code written before 0.6.0 its MIT
+  notice: keep TensorFold's NOTICE and the copyright and permission notice above with any copy), with the changes of
+  patches/ under Apache-2.0 as credited above (among them, in exl3.cu, exl3.cpp and exl3_mm.py, the decode loads
+  adapted from Jay Leaton's glm53-tensorfold-spark), and this fork's changes under Apache-2.0.
+  New files of this fork there: pf_xchg.cu, pf_xchg.cpp, pf_xchg.py, pf_xchg_proxy.c, pf_dequant.cu, pf_dequant.cpp,
+  pf_gemm.py, pf_switches.py, dec_tune.py, and the launcher wrapper vince/overlay/extra/bin/tensorfold (TensorFold's
+  console script with an optional profiler start).
+
+b12x
+  https://github.com/local-inference-lab/b12x
+  Copyright the b12x contributors (local-inference-lab). Apache License, Version 2.0.
+  vince/overlay/tensorfold/families/glm5_next/cuda/pf_xchg_proxy.c is a copy of tensorfold/cuda/roce_proxy.c as
+  patches/ leave it, that is b12x's RDMA proxy (b12x/comm/roce/_roce_proxy.c at commit
+  8a99d639410e39d5f39cb4037675331beceea1d4) with TensorFold's and Mia's AI Lab's modifications listed above,
+  modified further by this fork: an exchange (all-to-all) mode for a ring of four (roce_set_exchange: one block a
+  destination in the send slot, the across rank's block relayed half by each neighbour with relay flags in their own
+  range, a separate send-slot size), a broadcast form of it, an optional CPU placement of the proxy thread and an
+  optional barrier in the relay (next entry). It is built as its own library and used only by pf_xchg.py;
+  roce_proxy.c itself is unchanged. The file's header lists these changes.
+  vince/overlay/tensorfold/families/glm5_next/cuda/pf_xchg.cu follows b12x's one-shot kernel protocol (stages, flags,
+  system-scope memory orderings) as tensorfold/cuda/roce.cu implements it, as three launches (stage, wait, copy).
+
+dgx-spark-networking
+  https://github.com/christopherowen/dgx-spark-networking
+  Copyright 2026 Christopher Owen. Apache License, Version 2.0. Its one-shot collectives are themselves derived from
+  the RoCEnante module of b12x (its NOTICE: "Copyright Luke Alonso and Local Inference Lab contributors").
+  In pf_xchg_proxy.c, two optional parts, off by default, are adapted from its sparknet/oneshot/_roce_proxy.c and
+  rewritten in a shorter form: TF_GLM_PF_XCHG_PROXY_CPU=big (the proxy thread confined to the cores whose sysfs
+  cpu_capacity lies above the midpoint; its resolve_proxy_cpus / place_proxy_thread) and TF_GLM_PF_XCHG_DMB=1 (a
+  "dmb oshld" barrier after the relay observes a NIC-written flag). The ideas of TF_GLM_DEC_CPUS (dec_tune.py) and of
+  TF_GLM_PF_SI (hcsplit.py; its branch feat/sparknet-pdl-direct-stage) are also Christopher Owen's; no code of his is
+  in those.
+
+sparkDash
+  https://github.com/MiaAI-Lab/sparkDash (Mia's AI Lab), Apache License, Version 2.0.
+  vince/tools/dbench.py quotes its DecodeBench prose prompt and follows its protocol; its code prompts are read from
+  a sparkDash checkout at run time and are not included here.
+
+Design ideas only, no code: dsgx10 by Andy Shu (https://github.com/blaesus/dsgb10, MIT) and pico-dgx-ds4 by Pico
+(https://github.com/Picom-code/pico-dgx-ds4, MIT).
+
+TensorFold, again (v2.4)
+  https://github.com/ashhart/TensorFold, v1.2.6 and main to 6b739dd5. Ideas and rules only, no code: the 32-row verify
+  window width (#2257); the rule that a GLM tool call whose value runs into the next pair, or never closes, stays text
+  (#2801 / #2831), written here for this engine in vince/overlay/tensorfold/server/tools.py and cuda/reply_text.py;
+  the heat bands TF_HEAT_HIGH / TF_HEAT_LOW, written here as vince/overlay/tensorfold/families/glm5_next/cuda/heat.py
+  (a new file) with one hook in multi.py.
+
+Parakeet (optional, vince/extras/parakeet; not installed or started by the recipe)
+  The installer downloads nvidia/parakeet-tdt-0.6b-v3 from Hugging Face (NVIDIA, CC BY 4.0) and, from PyPI and
+  PyTorch's index, PyTorch (BSD-3-Clause), Hugging Face Transformers (Apache-2.0), PyAV (BSD-3-Clause; its wheels
+  bundle FFmpeg libraries under their own licences), FastAPI (MIT) and uvicorn (BSD-3-Clause). None of them is in this
+  repository.
+
+The image vince/build-image.sh builds is the project's image plus the layer above: everything said above about the
+third-party software in that image applies to it unchanged.
+
+See vince/CREDITS.md for whose work this fork builds on and what is new in it.

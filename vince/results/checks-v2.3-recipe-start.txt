@@ -1,0 +1,17 @@
+idle total 364
+LIVE: glm53-flash-tf tensorfold-glm53:vince-v2.3
+TF_GLM_PF_BALANCE=1 TF_GLM_PROMPT_MICROBATCH_MIN_ROWS=960 TF_GLM_PREFILL_ROWS=12288 TF_GLM_PF_TAIL_MERGE=1 TF_GLM_PF_KQ=1 
+MemAvailable GiB after load: 18.5 21.3 24.5 23.6 
+== same bits vs replies-default.json
+ALL IDENTICAL
+== concurrent == solo
+CONCURRENT == SOLO
+== decode, one request (saved v2.1: prose 72.9 / code 97.4 tok/s whole request; v2 70.3 / 94.2)
+decode prose: median 72.0 tok/s (69.0, 72.2, 72.0)
+decode code: median 96.0 tok/s (96.0, 96.2, 95.7)
+== prefill (saved at the 2,200 MHz cap: ~3,880 / 3,980 / 4,088 tok/s fast (v2.3; v2.2 3,762 / 3,832 / 3,999, with the head at 2,288 MHz 3,813 / 3,899 / 4,052; v2 3,390 / 3,703 / 3,766; v1 3,112 / 3,384 / 3,437), 2,627 / 2,818 / 2,842 exact)
+size 32768: prompt_tokens 32925 cached 0 ttft 8.021s -> 4,105 tok/s
+size 32768: prompt_tokens 32936 cached 0 ttft 8.039s -> 4,097 tok/s
+size 32768: prompt_tokens 32958 cached 0 ttft 8.367s -> 3,939 tok/s
+== size 32768: median 4,097 tok/s (min 3,939, max 4,105)
+results in ~/.cache/vince-glm53-check/20261110-195005

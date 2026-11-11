@@ -1,0 +1,187 @@
+idle total 1
+  │ [tensorfold] serving GLM-5.3-Flash-EXL3 at http://127.0.0.1:8000/v1 on CUDA, rank 0 of 4 (sampling: temperature 1.0, top_p 0.95; drafts: on; prompts: bf16 activations; context: 1048576; loaded in 286.7s)
+[start.sh] OK: 'OK', 2 tokens, 0.0289 s
+[gate] LIVE on pf3
+18:50:17 MemAvailable GiB after load (rank 0 1 2 3): 18.7 19.0 22.0 21.1 
+18:50:17 == 1. replies (new settings) against v2.2's references
+long set: ALL IDENTICAL
+short set: SHORT ALL IDENTICAL
+concurrent: CONCURRENT == SOLO
+18:51:58 == 2. kept states: kept by the two-chunk run, then by the merged run
+first 12100 prompt 12186 cached 0
+follow 150 prompt 311 cached 128
+follow 600 prompt 763 cached 576
+follow 1500 prompt 1670 cached 1536
+follow 3050 prompt 3226 cached 3072
+follow 5000 prompt 5174 cached 4992
+follow 9100 prompt 9306 cached 9152
+follow 12100 prompt 12311 cached 12160
+flooded
+first 12100 prompt 12186 cached 0
+follow 150 prompt 311 cached 128
+follow 600 prompt 763 cached 576
+follow 1500 prompt 1670 cached 1536
+follow 3050 prompt 3226 cached 3072
+follow 5000 prompt 5174 cached 4992
+follow 9100 prompt 9306 cached 9152
+follow 12100 prompt 12311 cached 12160
+KEPT STATES EQUIVALENT | cached: [128, 576, 1536, 3072, 4992, 9152, 12160] vs [128, 576, 1536, 3072, 4992, 9152, 12160]
+18:52:34 == 3. the 12,078-token case alone: v2.2, new, v2.2, new
+[v2.2 1] thermal guard: [77, 67, 65, 70] C, waiting for < 65 C on every rank
+[v2.2 1] thermal guard: cooled to [62, 58, 61, 60] C after 10 s
+[v2.2 1] words  12000 tokens  12078 (mod 64 = 46): ttft median  3111.7 ms (min  3106.1) = 3,881 tok/s
+[v2.2 1] thermal: peak C [77, 70, 65, 74], MHz [2184, 2184, 2184, 2184], cooling waits 10 s, thermal slowdown added ms [0, 0, 0, 0]
+[new 1] thermal guard: [75, 61, 64, 62] C, waiting for < 65 C on every rank
+[new 1] thermal guard: cooled to [61, 56, 59, 58] C after 10 s
+[new 1] words  12000 tokens  12078 (mod 64 = 46): ttft median  3032.8 ms (min  3030.6) = 3,982 tok/s
+[new 1] thermal: peak C [76, 64, 70, 68], MHz [2184, 2184, 2184, 2184], cooling waits 10 s, thermal slowdown added ms [0, 0, 0, 0]
+[v2.2 2] thermal guard: [75, 61, 64, 62] C, waiting for < 65 C on every rank
+[v2.2 2] thermal guard: cooled to [61, 56, 59, 57] C after 10 s
+[v2.2 2] words  12000 tokens  12078 (mod 64 = 46): ttft median  3118.7 ms (min  3107.2) = 3,873 tok/s
+[v2.2 2] thermal: peak C [75, 63, 66, 64], MHz [2184, 2184, 2184, 2184], cooling waits 10 s, thermal slowdown added ms [0, 0, 0, 0]
+[new 2] thermal guard: [75, 66, 64, 67] C, waiting for < 65 C on every rank
+[new 2] thermal guard: cooled to [62, 56, 60, 57] C after 10 s
+[new 2] words  12000 tokens  12078 (mod 64 = 46): ttft median  3029.6 ms (min  3024.9) = 3,987 tok/s
+[new 2] thermal: peak C [75, 67, 70, 69], MHz [2184, 2184, 2184, 2190], cooling waits 10 s, thermal slowdown added ms [0, 0, 0, 0]
+18:54:46 == table: v2.2 then new
+[v2.2] words   1000 tokens   1036 (mod 64 = 12): ttft median   495.0 ms (min   481.5) = 2,093 tok/s
+[v2.2] words   2000 tokens   2042 (mod 64 = 58): ttft median   847.3 ms (min   760.8) = 2,410 tok/s
+[v2.2] words   3000 tokens   3049 (mod 64 = 41): ttft median  1124.2 ms (min  1111.3) = 2,712 tok/s
+[v2.2] words   4000 tokens   4054 (mod 64 = 22): ttft median  1423.9 ms (min  1420.3) = 2,847 tok/s
+[v2.2] thermal guard: [75, 61, 68, 61] C, waiting for < 65 C on every rank
+[v2.2] thermal guard: cooled to [62, 56, 60, 56] C after 10 s
+[v2.2] words   6000 tokens   6065 (mod 64 = 49): ttft median  1693.2 ms (min  1686.9) = 3,582 tok/s
+[v2.2] thermal guard: [75, 68, 73, 68] C, waiting for < 65 C on every rank
+[v2.2] thermal guard: cooled to [62, 55, 60, 55] C after 10 s
+[v2.2] words   8192 tokens   8274 (mod 64 = 18): ttft median  2160.0 ms (min  2131.5) = 3,831 tok/s
+[v2.2] thermal guard: [76, 60, 65, 60] C, waiting for < 65 C on every rank
+[v2.2] thermal guard: cooled to [62, 56, 60, 55] C after 10 s
+[v2.2] words  12000 tokens  12078 (mod 64 = 46): ttft median  3115.6 ms (min  3102.9) = 3,877 tok/s
+[v2.2] thermal guard: [75, 63, 72, 63] C, waiting for < 65 C on every rank
+[v2.2] thermal guard: cooled to [62, 55, 60, 55] C after 10 s
+[v2.2] thermal guard: [76, 61, 66, 60] C, waiting for < 65 C on every rank
+[v2.2] thermal guard: cooled to [63, 56, 61, 56] C after 10 s
+[v2.2] words  16384 tokens  16495 (mod 64 = 47): ttft median  4245.8 ms (min  4227.1) = 3,885 tok/s
+[v2.2] thermal guard: [75, 59, 64, 66] C, waiting for < 65 C on every rank
+[v2.2] thermal guard: cooled to [62, 55, 60, 55] C after 10 s
+[v2.2] thermal guard: [77, 61, 66, 61] C, waiting for < 65 C on every rank
+[v2.2] thermal guard: cooled to [63, 56, 61, 56] C after 11 s
+[v2.2] words  20000 tokens  20134 (mod 64 = 38): ttft median  5058.5 ms (min  5053.0) = 3,980 tok/s
+[v2.2] thermal guard: [76, 65, 73, 67] C, waiting for < 65 C on every rank
+[v2.2] thermal guard: cooled to [63, 56, 59, 55] C after 10 s
+[v2.2] thermal guard: [75, 60, 63, 59] C, waiting for < 65 C on every rank
+[v2.2] thermal guard: cooled to [63, 56, 58, 55] C after 10 s
+[v2.2] thermal guard: [76, 60, 63, 59] C, waiting for < 65 C on every rank
+[v2.2] thermal guard: cooled to [63, 55, 58, 55] C after 11 s
+[v2.2] words  24000 tokens  24154 (mod 64 = 26): ttft median  5977.9 ms (min  5970.5) = 4,041 tok/s
+[v2.2] thermal: peak C [77, 68, 73, 68], MHz [2184, 2184, 2177, 2184], cooling waits 104 s, thermal slowdown added ms [0, 0, 0, 0]
+[v2.2] == size 32768: median 4,039 tok/s (min 4,036, max 4,042, n 5)
+[v2.2] == size 65536: median 4,071 tok/s (min 3,961, max 4,081, n 5)
+[v2.2] == size 131072: median 3,918 tok/s (min 3,893, max 3,943, n 5)
+[v2.2] discarded 0 runs other requests got into; peak C [69, 58, 60, 58], MHz [2190, 2190, 2190, 2190], cooling waits 0 s, thermal slowdown added ms [0, 0, 0, 0]
+[new] words   1000 tokens   1036 (mod 64 = 12): ttft median   448.7 ms (min   433.7) = 2,309 tok/s
+[new] thermal guard: [75, 65, 65, 64] C, waiting for < 65 C on every rank
+[new] thermal guard: cooled to [63, 53, 54, 53] C after 21 s
+[new] words   2000 tokens   2042 (mod 64 = 58): ttft median   726.7 ms (min   711.4) = 2,810 tok/s
+[new] words   3000 tokens   3049 (mod 64 = 41): ttft median   949.9 ms (min   941.9) = 3,210 tok/s
+[new] thermal guard: [75, 64, 60, 57] C, waiting for < 65 C on every rank
+[new] thermal guard: cooled to [63, 53, 54, 53] C after 10 s
+[new] thermal guard: [79, 69, 68, 69] C, waiting for < 65 C on every rank
+[new] thermal guard: cooled to [62, 56, 57, 57] C after 115 s
+[new] words   4000 tokens   4054 (mod 64 = 22): ttft median  1158.3 ms (min  1154.5) = 3,500 tok/s
+[new] words   6000 tokens   6065 (mod 64 = 49): ttft median  1625.2 ms (min  1624.0) = 3,732 tok/s
+[new] thermal guard: [75, 62, 62, 63] C, waiting for < 65 C on every rank
+[new] thermal guard: cooled to [64, 56, 57, 57] C after 11 s
+[new] thermal guard: [75, 66, 67, 66] C, waiting for < 65 C on every rank
+[new] thermal guard: cooled to [64, 55, 56, 56] C after 10 s
+[new] words   8192 tokens   8274 (mod 64 = 18): ttft median  2134.2 ms (min  2125.4) = 3,877 tok/s
+[new] thermal guard: [77, 59, 61, 59] C, waiting for < 65 C on every rank
+[new] thermal guard: cooled to [63, 55, 56, 55] C after 10 s
+[new] words  12000 tokens  12078 (mod 64 = 46): ttft median  3080.3 ms (min  3043.0) = 3,921 tok/s
+[new] thermal guard: [75, 60, 69, 61] C, waiting for < 65 C on every rank
+[new] thermal guard: cooled to [64, 55, 56, 55] C after 11 s
+[new] thermal guard: [76, 63, 65, 64] C, waiting for < 65 C on every rank
+[new] thermal guard: cooled to [63, 55, 56, 55] C after 10 s
+[new] thermal guard: [75, 64, 61, 64] C, waiting for < 65 C on every rank
+[new] thermal guard: cooled to [62, 54, 55, 54] C after 10 s
+[new] words  16384 tokens  16495 (mod 64 = 47): ttft median  4144.7 ms (min  4139.3) = 3,980 tok/s
+[new] thermal guard: [76, 60, 62, 60] C, waiting for < 65 C on every rank
+[new] thermal guard: cooled to [64, 55, 56, 55] C after 11 s
+[new] thermal guard: [75, 57, 59, 58] C, waiting for < 65 C on every rank
+[new] thermal guard: cooled to [63, 54, 55, 54] C after 10 s
+[new] thermal guard: [76, 58, 61, 59] C, waiting for < 65 C on every rank
+[new] thermal guard: cooled to [63, 54, 55, 54] C after 10 s
+[new] thermal guard: [75, 65, 67, 61] C, waiting for < 65 C on every rank
+[new] thermal guard: cooled to [62, 53, 54, 53] C after 10 s
+[new] words  20000 tokens  20134 (mod 64 = 38): ttft median  4988.1 ms (min  4984.1) = 4,036 tok/s
+[new] thermal guard: [76, 57, 58, 57] C, waiting for < 65 C on every rank
+[new] thermal guard: cooled to [63, 54, 55, 54] C after 10 s
+[new] thermal guard: [75, 59, 59, 59] C, waiting for < 65 C on every rank
+[new] thermal guard: cooled to [63, 54, 55, 54] C after 10 s
+[new] thermal guard: [75, 62, 67, 60] C, waiting for < 65 C on every rank
+[new] thermal guard: cooled to [63, 53, 54, 53] C after 10 s
+[new] words  24000 tokens  24154 (mod 64 = 26): ttft median  5941.8 ms (min  5937.6) = 4,065 tok/s
+[new] thermal: peak C [79, 70, 71, 72], MHz [2184, 2184, 2177, 2184], cooling waits 281 s, thermal slowdown added ms [0, 0, 0, 0]
+[new] == size 32768: median 4,088 tok/s (min 4,086, max 4,093, n 5)
+[new] == size 65536: median 4,087 tok/s (min 4,082, max 4,088, n 5)
+[new] == size 131072: median 4,020 tok/s (min 4,007, max 4,028, n 5)
+[new] discarded 0 runs other requests got into; peak C [68, 57, 58, 58], MHz [2190, 2190, 2190, 2190], cooling waits 0 s, thermal slowdown added ms [0, 0, 0, 0]
+19:22:41 == 4. decode, cool
+before decode: [60, 51, 51, 51]
+decode: decode prose: median 72.4 tok/s (71.9, 72.5, 72.4)
+decode: decode code: median 96.6 tok/s (96.1, 96.6, 96.6)
+decode again: decode prose: median 72.0 tok/s (71.7, 72.4, 72.0)
+decode again: decode code: median 96.2 tok/s (96.1, 96.2, 96.2)
+19:24:56 == 5. soak: mixed sizes at one request, then pairs
+[soak] words     70 tokens    102 (mod 64 = 38): ttft median   165.2 ms (min   165.2) = 617 tok/s
+[soak] words    130 tokens    163 (mod 64 = 35): ttft median   189.2 ms (min   189.2) = 862 tok/s
+[soak] words    300 tokens    334 (mod 64 = 14): ttft median   242.0 ms (min   242.0) = 1,380 tok/s
+[soak] words    700 tokens    736 (mod 64 = 32): ttft median   341.3 ms (min   341.3) = 2,156 tok/s
+[soak] words   1500 tokens   1542 (mod 64 =  6): ttft median   606.3 ms (min   606.3) = 2,543 tok/s
+[soak] words   2500 tokens   2539 (mod 64 = 43): ttft median   840.3 ms (min   840.3) = 3,021 tok/s
+[soak] words   3500 tokens   3548 (mod 64 = 28): ttft median  1048.7 ms (min  1048.7) = 3,383 tok/s
+[soak] words   4500 tokens   4554 (mod 64 = 10): ttft median  1280.9 ms (min  1280.9) = 3,555 tok/s
+[soak] words   7000 tokens   7069 (mod 64 = 29): ttft median  1855.5 ms (min  1855.5) = 3,810 tok/s
+[soak] words  10000 tokens  10086 (mod 64 = 38): ttft median  2572.8 ms (min  2572.8) = 3,920 tok/s
+[soak] thermal guard: [76, 63, 66, 64] C, waiting for < 65 C on every rank
+[soak] thermal guard: cooled to [63, 54, 54, 54] C after 10 s
+[soak] words  11000 tokens  11088 (mod 64 = 16): ttft median  2792.5 ms (min  2792.5) = 3,971 tok/s
+[soak] words  12290 tokens  12377 (mod 64 = 25): ttft median  3192.1 ms (min  3192.1) = 3,877 tok/s
+[soak] thermal guard: [75, 60, 59, 60] C, waiting for < 65 C on every rank
+[soak] thermal guard: cooled to [63, 54, 54, 54] C after 11 s
+[soak] words  12360 tokens  12435 (mod 64 = 19): ttft median  3204.5 ms (min  3204.5) = 3,880 tok/s
+[soak] words  13000 tokens  13086 (mod 64 = 30): ttft median  3360.6 ms (min  3360.6) = 3,894 tok/s
+[soak] thermal guard: [77, 58, 59, 67] C, waiting for < 65 C on every rank
+[soak] thermal guard: cooled to [63, 54, 55, 55] C after 10 s
+[soak] words  17000 tokens  17117 (mod 64 = 29): ttft median  4278.5 ms (min  4278.5) = 4,001 tok/s
+[soak] thermal guard: [75, 58, 60, 59] C, waiting for < 65 C on every rank
+[soak] thermal guard: cooled to [63, 54, 54, 54] C after 10 s
+[soak] words  19000 tokens  19119 (mod 64 = 47): ttft median  4757.7 ms (min  4757.7) = 4,019 tok/s
+[soak] thermal guard: [77, 65, 63, 66] C, waiting for < 65 C on every rank
+[soak] thermal guard: cooled to [63, 53, 54, 54] C after 11 s
+[soak] words  22000 tokens  22139 (mod 64 = 59): ttft median  5440.6 ms (min  5440.6) = 4,069 tok/s
+[soak] thermal guard: [75, 64, 65, 62] C, waiting for < 65 C on every rank
+[soak] thermal guard: cooled to [62, 53, 53, 53] C after 10 s
+[soak] thermal guard: [75, 56, 58, 57] C, waiting for < 65 C on every rank
+[soak] thermal guard: cooled to [62, 52, 53, 53] C after 10 s
+[soak] words  26000 tokens  26152 (mod 64 = 40): ttft median  6474.7 ms (min  6474.7) = 4,039 tok/s
+[soak] words  30000 tokens  30182 (mod 64 = 38): ttft median  7413.3 ms (min  7413.3) = 4,071 tok/s
+[soak] thermal guard: [77, 65, 67, 66] C, waiting for < 65 C on every rank
+[soak] thermal guard: cooled to [64, 54, 55, 55] C after 11 s
+[soak] words  37000 tokens  37218 (mod 64 = 34): ttft median  9189.6 ms (min  9189.6) = 4,050 tok/s
+[soak] words  45000 tokens  45223 (mod 64 = 39): ttft median 11113.6 ms (min 11113.6) = 4,069 tok/s
+[soak] thermal: peak C [77, 65, 67, 67], MHz [2190, 2190, 2190, 2190], cooling waits 84 s, thermal slowdown added ms [0, 0, 0, 0]
+[soak c2] pair 900+5200: 941 tok 2.6 s, 5255 tok 2.6 s
+[soak c2] pair 3100+12200: 3149 tok 5.4 s, 12297 tok 5.4 s
+[soak c2] thermal guard: [75, 60, 59, 61] C, waiting for < 65 C on every rank
+[soak c2] thermal guard: cooled to [64, 54, 54, 55] C after 10 s
+[soak c2] pair 7000+2100: 7064 tok 3.2 s, 2148 tok 3.3 s
+[soak c2] pair 15000+600: 15111 tok 5.3 s, 643 tok 5.7 s
+[soak c2] pair 9000+9000: 9076 tok 6.3 s, 9081 tok 6.3 s
+[soak c2] pair 20500+1500: 1552 tok 7.3 s, 20627 tok 7.7 s
+[soak c2] C2 SOAK OK | peak C [75, 60, 60, 61], MHz [2184, 2190, 2190, 2190], cooling waits 10 s, thermal slowdown added ms [0, 0, 0, 0]
+toolcheck: toolcheck: OK: tags is a JSON array
+19:30:04 errors in the server log since start: 0
+19:30:05 MemAvailable GiB after the runs: 9.4 12.1 14.8 14.1 
+19:30:06 SW thermal slowdown counters now (us): [4763604, 0, 0, 0]
+19:30:06 gate done

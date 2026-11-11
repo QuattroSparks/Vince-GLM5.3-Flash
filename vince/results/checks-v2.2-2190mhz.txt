@@ -1,0 +1,49 @@
+# v2.2 as served (image tensorfold-glm53:vince-v2.2), 2026-11-10 16:33-16:48, all four GPUs at 2,190 MHz (cap 2,200).
+# Prefill: 5 runs a size, fixed seed 777, prompt-cache reuse off (prefill-v2.2-2190mhz.json has every run). Then a
+# time-to-first-token scan over prompt lengths, the same-bits check and two decode checks. Clock lines: MHz, C, W and
+# load average of rank 0 | 1 | 2 | 3. The thermal guard waits for < 70 C on every rank when one reaches 80 C.
+image: tensorfold-glm53:vince-v2.2
+[start] MHz,C,W/load: 2190, 59, 11.39 0.71 | 2190, 54, 9.33 1.56 | 2190, 56, 10.84 10.96 | 2190, 48, 10.26 3.33 | 
+== size 8192: median 3,762 tok/s (min 3,723, max 3,786, n 5)
+== size 16384: median 3,832 tok/s (min 3,815, max 3,853, n 5)
+== size 32768: median 3,999 tok/s (min 3,922, max 4,010, n 5)
+== size 65536: median 3,973 tok/s (min 3,751, max 4,019, n 5)
+== size 131072: median 3,984 tok/s (min 3,980, max 3,992, n 5)
+discarded 0 runs other requests got into; peak C [78, 69, 71, 65], MHz [2190, 2190, 2190, 2190], cooling waits 0 s
+[after-prefill] MHz,C,W/load: 2190, 66, 12.74 4.17 | 2190, 59, 10.01 3.12 | 2190, 61, 11.67 16.66 | 2190, 56, 11.53 1.38 | 
+words    200 tokens    237 (mod 64 = 45): ttft median   302.6 ms (min   290.6) = 783 tok/s
+words    500 tokens    533 (mod 64 = 21): ttft median   367.6 ms (min   362.7) = 1,450 tok/s
+words   1000 tokens   1036 (mod 64 = 12): ttft median   504.8 ms (min   499.0) = 2,052 tok/s
+words   2000 tokens   2042 (mod 64 = 58): ttft median   870.0 ms (min   777.7) = 2,347 tok/s
+words   3000 tokens   3049 (mod 64 = 41): ttft median  1150.5 ms (min  1145.9) = 2,650 tok/s
+words   4000 tokens   4054 (mod 64 = 22): ttft median  1439.4 ms (min  1434.0) = 2,816 tok/s
+words   5000 tokens   5053 (mod 64 = 61): ttft median  1509.6 ms (min  1472.2) = 3,347 tok/s
+words   6000 tokens   6065 (mod 64 = 49): ttft median  1730.3 ms (min  1720.8) = 3,505 tok/s
+thermal guard: [80, 63, 64, 67] C, waiting for < 70 C on every rank
+thermal guard: cooled to [66, 58, 60, 56] C after 10 s
+words   8000 tokens   8085 (mod 64 = 21): ttft median  2163.7 ms (min  2148.8) = 3,737 tok/s
+words   9000 tokens   9086 (mod 64 = 62): ttft median  2435.5 ms (min  2424.4) = 3,731 tok/s
+thermal guard: [81, 67, 71, 66] C, waiting for < 70 C on every rank
+thermal guard: cooled to [67, 59, 60, 57] C after 10 s
+words  12000 tokens  12078 (mod 64 = 46): ttft median  3138.7 ms (min  3118.2) = 3,848 tok/s
+words  12300 tokens  12381 (mod 64 = 29): ttft median  3304.0 ms (min  3281.0) = 3,747 tok/s
+words  14000 tokens  14101 (mod 64 = 21): ttft median  3772.0 ms (min  3767.1) = 3,738 tok/s
+thermal guard: [80, 65, 66, 63] C, waiting for < 70 C on every rank
+thermal guard: cooled to [68, 60, 60, 58] C after 10 s
+thermal guard: [80, 70, 70, 67] C, waiting for < 70 C on every rank
+thermal guard: cooled to [67, 59, 59, 57] C after 10 s
+words  16000 tokens  16119 (mod 64 = 55): ttft median  4359.4 ms (min  4355.5) = 3,698 tok/s
+thermal guard: [80, 68, 64, 61] C, waiting for < 70 C on every rank
+thermal guard: cooled to [67, 58, 58, 56] C after 10 s
+words  20000 tokens  20134 (mod 64 = 38): ttft median  5102.0 ms (min  5091.9) = 3,946 tok/s
+thermal guard: [80, 68, 71, 67] C, waiting for < 70 C on every rank
+thermal guard: cooled to [67, 59, 59, 58] C after 10 s
+words  24000 tokens  24154 (mod 64 = 26): ttft median  6020.1 ms (min  6004.2) = 4,012 tok/s
+thermal: peak C [81, 71, 72, 70], MHz [2177, 2184, 2184, 2184], cooling waits 62 s
+[after-scan] MHz,C,W/load: 2190, 70, 20.31 3.73 | 2190, 64, 10.65 4.99 | 2184, 63, 11.92 2.04 | 2190, 62, 12.37 1.88 | 
+ALL IDENTICAL
+decode prose: median 72.1 tok/s (61.2, 72.1, 72.6)
+decode code: median 91.4 tok/s (87.3, 91.4, 96.6)
+decode prose: median 72.1 tok/s (72.1, 66.2, 72.4)
+decode code: median 96.5 tok/s (96.5, 96.7, 93.2)
+rebase done 16:48

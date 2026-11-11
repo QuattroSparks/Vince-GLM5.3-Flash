@@ -1,0 +1,47 @@
+# v2.2 dev-image session, 2026-11-10 (the development tree's run and soak logs)
+idle total 82
+  │ [tensorfold] serving GLM-5.3-Flash-EXL3 at http://127.0.0.1:8000/v1 on CUDA, rank 0 of 4 (sampling: temperature 1.0, top_p 0.95; drafts: on; prompts: bf16 activations; context: 1048576; loaded i
+[start.sh] OK: 'OK', 2 tokens, 0.0286 s
+[i] LIVE on pf3
+15:44:53 == warm (tap_tail:1,lean:1,part16:1,own_router:1,zc:1,bcast:1,kq:1,fill_whole:1)
+[i-warm] == size 8192: median 3,771 tok/s (min 3,771, max 3,771, n 1)
+[i-warm] == size 16384: median 3,871 tok/s (min 3,871, max 3,871, n 1)
+[i-warm] gpu MHz/temp/W/load: 2288, 71, 39.64 3.07 | 2190, 53, 16.47 2.82 | 2190, 60, 11.67 8.14 | 2190, 51, 10.61 2.37 | 
+[i-warm] bits: ALL IDENTICAL
+15:45:26 == best (tap_tail:1,lean:1,part16:1,own_router:1,zc:1,bcast:1,kq:1,fill_whole:1)
+[i-best] == size 8192: median 3,813 tok/s (min 3,773, max 3,840, n 5)
+[i-best] == size 16384: median 3,899 tok/s (min 3,877, max 3,906, n 5)
+[i-best] == size 32768: median 4,052 tok/s (min 4,050, max 4,062, n 5)
+[i-best] gpu MHz/temp/W/load: 2288, 73, 39.87 2.82 | 2190, 63, 12.70 3.33 | 2184, 68, 13.05 8.63 | 2190, 62, 12.40 2.47 | 
+[i-best] bits: ALL IDENTICAL
+15:47:07 == best_long (tap_tail:1,lean:1,part16:1,own_router:1,zc:1,bcast:1,kq:1,fill_whole:1)
+[i-best_long] == size 65536: median 4,083 tok/s (min 4,080, max 4,087, n 2)
+[i-best_long] == size 131072: median 4,035 tok/s (min 4,034, max 4,036, n 2)
+[i-best_long] gpu MHz/temp/W/load: 2288, 75, 41.71 2.51 | 2190, 68, 11.57 2.78 | 2190, 71, 13.64 8.39 | 2190, 66, 13.09 2.54 | 
+[i-best_long] bits: ALL IDENTICAL
+15:49:13 run i done
+[soak-sizes] == size 3000: median 2,470 tok/s (min 2,261, max 2,678, n 2)
+[soak-sizes] == size 9000: median 3,536 tok/s (min 3,372, max 3,700, n 2)
+[soak-sizes] == size 12300: median 3,631 tok/s (min 3,472, max 3,790, n 2)
+[soak-sizes] == size 12500: median 3,564 tok/s (min 3,450, max 3,679, n 2)
+[soak-sizes] == size 20000: median 3,532 tok/s (min 3,525, max 3,539, n 2)
+[soak-sizes] == size 24600: median 3,962 tok/s (min 3,956, max 3,968, n 2)
+[soak-sizes] == size 37000: median 4,045 tok/s (min 4,043, max 4,046, n 2)
+[soak-sizes] == size 50000: median 4,048 tok/s (min 4,033, max 4,063, n 2)
+[soak-sizes] == size 100000: median 3,913 tok/s (min 3,781, max 4,044, n 2)
+[soak-sizes] gpu MHz/temp/W/load: 2275, 74, 34.85 2.67 | 2190, 69, 11.92 2.80 | 2184, 66, 12.77 8.43 | 2190, 67, 13.48 2.50 | 
+bits: ALL IDENTICAL
+conc_test: CONCURRENT == SOLO
+decode: decode prose: median 72.1 tok/s (71.5, 72.1, 72.1)
+decode: decode code: median 96.2 tok/s (96.2, 96.1, 96.2)
+toolcheck: toolcheck: OK: tags is a JSON array
+needle: soak-needle: needle 194851 tok, prefill 48.6791 s, total 50.1 s, answer 'violet-harbor-7291': CORRECT
+conc_bench: prefill c1: 8025 prompt tokens in 2.15 s = 3,729 tok/s aggregate
+conc_bench: prefill c2: 16049 prompt tokens in 5.30 s = 3,030 tok/s aggregate
+conc_bench: prefill c4: 32103 prompt tokens in 10.42 s = 3,080 tok/s aggregate
+conc_bench: prefill c8: 64203 prompt tokens in 20.78 s = 3,090 tok/s aggregate
+conc_bench: decode  c1: 256 tokens in 3.89 s = 65.8 tok/s aggregate
+conc_bench: decode  c2: 512 tokens in 5.18 s = 98.9 tok/s aggregate
+conc_bench: decode  c4: 1024 tokens in 7.53 s = 135.9 tok/s aggregate
+conc_bench: decode  c8: 2048 tokens in 12.33 s = 166.0 tok/s aggregate
+soak done 15:54

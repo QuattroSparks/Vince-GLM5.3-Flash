@@ -1,0 +1,17 @@
+== v24-w32g16-heat: tensorfold-glm53:vince-v2.4 TF_GLM_COPY_MAX=31 TF_GLM_WIDE_GRAPHS=16 TF_GLM_EXL3_DEC_ORDER=0 TF_GLM_MAX_ROWS=32 
+quote    323.0 tok/s  (321.9 323.5 323.9 322.8 323.0)  1500 tokens  reply a19583a43a9a  null
+edit     311.8 tok/s  (310.6 312.1 312.4 311.8 311.4)  1500 tokens  reply 098a14af6494  null
+story     74.7 tok/s  (74.9 74.6 75.0 74.7 74.7)  400 tokens  reply 5249e5e2fec1  null
+code     100.5 tok/s  (100.0 100.2 100.5 100.7 100.6)  400 tokens  reply eb192cef109a  null
+requests during bench: 21 (ours 21)
+65
+toolcheck: OK: tags is a JSON array
+session v24-w32g16-heat done
+[tensorfold] heat bands: a prompt chunk waits while the GPU's temperature (NVML) is above 78 C, until 72 C or less (at most 240 s a chunk; now 56 C)
+run 1: 93075 tokens (cached 0), first token 22.8 s = 4079 tok/s, decode at depth 67.1 tok/s, head peak 75 C
+run 2: 92977 tokens (cached 0), first token 22.8 s = 4084 tok/s, decode at depth 72.1 tok/s, head peak 77 C
+run 3: 92959 tokens (cached 0), first token 23.8 s = 3909 tok/s, decode at depth 72.3 tok/s, head peak 79 C
+head GPU: start 65 C, peak 79 C, end 71 C
+[tensorfold] heat: a prompt chunk waited 1.0 s, 79 -> 68 C; heat_wait_s 1.0 in 1 waits
+72
+deep v24-w32g16-heat done

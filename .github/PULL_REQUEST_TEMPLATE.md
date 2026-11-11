@@ -18,7 +18,7 @@
 
 <!--
 
-    Add the list of issues related to this PR from the [issue tracker](https://github.com/MiaAI-Lab/GLM-5.3-Flash-EXL3-2x-DGX-Sparks-TensorFold/issues).
+    Add the list of issues related to this PR from this repository's issue tracker.
     Indicate which of these issues are resolved or fixed by this PR, like #XXXX, where XXXX is the issue number.
 
 -->

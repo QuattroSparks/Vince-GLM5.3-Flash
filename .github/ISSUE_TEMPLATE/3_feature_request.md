@@ -8,9 +8,9 @@ assignees: ""
 
 <!-- Thank you for using this model kit!
 
-     If you are looking for support, please check the README and scripts/config.sh first,
-     or reach out on X:
-      * https://x.com/MiaAI_lab
+     If you are looking for support, please check the README and vince/local.sh.example first.
+     This is a fork: problems with the recipe underneath (Mia's AI Lab's) belong in her repository,
+     problems with this fork's changes belong here.
 
      If you want the kit to do something it currently doesn't, then fill out the
      template below.

@@ -1,0 +1,20 @@
+#!/usr/bin/python3
+# Prefill-work wrapper of TensorFold's console script: with TF_GLM_PF_NSYS=1, rank 0 runs under nsys with a
+# cudaProfilerApi capture range (multi.py's TF_GLM_PF_TRACE_MIN opens and closes it); otherwise the stock script.
+import os
+import sys
+
+argv = sys.argv[1:]
+rank0 = "--rank" in argv and argv[argv.index("--rank") + 1] == "0"
+if os.environ.get("TF_GLM_PF_NSYS") == "1" and rank0 and not os.environ.get("TF_GLM_PF_NSYS_INNER"):
+    os.environ["TF_GLM_PF_NSYS_INNER"] = "1"
+    out = os.environ.get("TF_GLM_PF_NSYS_OUT", "/cache/pf-trace")
+    os.execvp("nsys", ["nsys", "profile", "-t", "cuda,nvtx", "--capture-range=cudaProfilerApi",
+                       "--capture-range-end=stop", "--cuda-memory-usage=false", "-o", out, "-f", "true",
+                       sys.executable, "/usr/local/bin/tensorfold", *argv])
+
+from tensorfold.cli import main  # noqa: E402
+
+if __name__ == "__main__":
+    sys.argv[0] = sys.argv[0].removesuffix(".exe")
+    sys.exit(main())

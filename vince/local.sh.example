@@ -1,0 +1,23 @@
+# Vince GLM5.3 Flash: YOUR SETUP. Copy this file to scripts/local.sh (not in git) and fill in your ring:
+#   cp vince/local.sh.example scripts/local.sh
+# Mia's scripts/config.sh sources scripts/local.sh first; the environment wins over it.
+#
+# Four Sparks cabled as a ring (README-Mia.md "Without a switch" has the cabling, addresses and routes). The workers
+# are ssh targets (key-based: ssh-copy-id user@...), in the ring's order from the head, which is the Spark you start
+# from: rank 1 and rank 3 are its two neighbours, rank 2 is the Spark across the ring. The addresses below are the
+# ones of Mia's example ring.
+WORKER=user@10.0.22.2           # rank 1, spark2: a neighbour, its address on the cable to the head
+WORKER2=user@10.0.0.3           # rank 2, spark3: across the ring, an address routed through a neighbour
+WORKER3=user@10.0.0.4           # rank 3, spark4: the other neighbour
+# The rendezvous address the other ranks reach the head at, when the head's hostname does not resolve to it.
+MASTER_ADDR=10.0.0.1
+# Where the API listens (0.0.0.0 to serve other machines; there is no authentication).
+HOST=127.0.0.1
+PORT=8000
+
+# The settings every number in README.md was measured with. Change them and the memory figures change with them.
+MEMORY_RESERVE_GIB=24           # rank 0 also holds the server (docs/zig-engine.md "TP=4")
+VISION=1                        # images and video: GLM's vision tower on rank 0 (~2 GiB)
+
+# The builds (VINCE_MODE=fast | exact | stock) and their switches: keep this line last.
+source "$(dirname "${BASH_SOURCE[0]}")/../vince/modes.sh"

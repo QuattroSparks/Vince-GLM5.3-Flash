@@ -266,7 +266,7 @@ export TF_GLM_KDA_CHUNKED="$KDA_CHUNKED"
 # Exact. 0: off.
 COPY_CODE="${COPY_CODE:-1}"
 _w=0; [[ "$COPY_CODE" == 1 ]] && _w=16
-export TF_GLM_WIDE_GRAPHS="$_w" TF_GLM_COPY_REPLY_MATCH="$_w"
+export TF_GLM_WIDE_GRAPHS="${WIDE_GRAPHS:-$_w}" TF_GLM_COPY_REPLY_MATCH="$_w"   # WIDE_GRAPHS: e.g. 16,32 with TF_GLM_MAX_ROWS=32
 # --parallel: a request alone runs on the one-stream graphs (patch 0035; 1) instead of the batched ones (0, default):
 # +0.6-0.9% at 1 stream, but to use them the stream moves to the pool's first rows and evicts the other conversations'
 # kept prompts there, so interactive sessions miss the prompt cache and re-read whole histories (issues #12, #13).

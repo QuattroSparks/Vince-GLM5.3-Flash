@@ -1,0 +1,30 @@
+idle total 26
+LIVE: glm53-flash-tf tensorfold-glm53:vince-v2.4
+TF_GLM_HEAT_LOW=72 TF_GLM_COPY_MAX=31 TF_GLM_PREFILL_ROWS=12288 TF_GLM_HEAT_HIGH=78 TF_GLM_WIDE_GRAPHS=16,32 TF_GLM_MAX_ROWS=32 
+[tensorfold] heat bands: a prompt chunk waits while the GPU's temperature (NVML) is above 78 C, until 72 C or less (at most 240 s a chunk; now 57 C)
+MemAvailable GiB after load: 19.3 17.9 22.2 21.7 
+== same bits vs replies-default.json
+ALL IDENTICAL
+== concurrent == solo
+CONCURRENT == SOLO
+== decode, one request (saved v2.1: prose 72.9 / code 97.4 tok/s whole request; v2 70.3 / 94.2)
+decode prose: median 72.9 tok/s (72.8, 72.9, 73.1)
+decode code: median 97.9 tok/s (97.6, 97.9, 97.9)
+== prefill (saved at the 2,200 MHz cap: ~3,880 / 3,980 / 4,088 tok/s fast (v2.3; v2.2 3,762 / 3,832 / 3,999, with the head at 2,288 MHz 3,813 / 3,899 / 4,052; v2 3,390 / 3,703 / 3,766; v1 3,112 / 3,384 / 3,437), 2,627 / 2,818 / 2,842 exact)
+size 32768: prompt_tokens 32925 cached 0 ttft 8.014s -> 4,109 tok/s
+size 32768: prompt_tokens 32936 cached 0 ttft 8.005s -> 4,115 tok/s
+size 32768: prompt_tokens 32958 cached 0 ttft 8.010s -> 4,114 tok/s
+== size 32768: median 4,114 tok/s (min 4,109, max 4,115)
+results in ~/.cache/vince-glm53-check/20261111-100758
+SHORT ALL IDENTICAL
+quote    323.5 tok/s  (321.6 323.5 321.9 323.8 323.7)  1500 tokens  reply a19583a43a9a  null
+edit     311.3 tok/s  (311.3 310.9 311.4 311.7 310.6)  1500 tokens  reply 098a14af6494  null
+story     74.3 tok/s  (74.4 74.1 74.8 74.2 74.3)  400 tokens  reply 5249e5e2fec1  null
+code      99.7 tok/s  (99.7 99.7 100.0 99.7 100.2)  400 tokens  reply eb192cef109a  null
+toolcheck: OK: tags is a JSON array
+peak C [73, 63, 61, 60], MHz [2190, 2184, 2184, 2190], cooling waits 0 s, thermal slowdown added ms [0, 0, 0, 0]
+[tensorfold] heat: a prompt chunk waited 0.5 s, 79 -> 71 C; heat_wait_s 0.5 in 1 waits
+[tensorfold] heat: a prompt chunk waited 0.5 s, 79 -> 70 C; heat_wait_s 1.0 in 2 waits
+[tensorfold] heat: a prompt chunk waited 1.0 s, 79 -> 70 C; heat_wait_s 2.0 in 3 waits
+0
+validation done 10:12
