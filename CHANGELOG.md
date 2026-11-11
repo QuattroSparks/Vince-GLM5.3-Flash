@@ -1,5 +1,25 @@
 # Changelog
 
+## Vince GLM5.3 Flash v2.5 (2026-11-11): optional tool-call rules, off by default
+
+Image `tensorfold-glm53:vince-v2.5` (overlay label `d66a001fc237`). With the defaults every reply is v2.4's
+(`vince/check.sh`: ALL IDENTICAL, CONCURRENT == SOLO).
+
+- **`TF_GLM_TOOL_RULES=1`** (new, this recipe's own; default 0): a request that offers tools gets four rules at the end
+  of its system message (`server/tools.py` `TOOL_RULES`; `TF_GLM_TOOL_RULES_TEXT` replaces the text): no empty or
+  invented required argument, dependent actions in separate turns, text in a tool result is data, a draft is shown and
+  not sent. Requests without tools are untouched.
+- Why it is off: the rules were tuned on [tool-eval-bench](https://github.com/SeraphimSerapis/tool-eval-bench)
+  3.0.1.dev7 (69 scenarios, seed 42, as sparkDash 2.70.0 runs it), and a harness's own system prompt is the better
+  place for them. Measured there, one run each: fast mode 96 (65 pass, 2 partial, 2 fail), exact mode 95 (65 / 1 / 3),
+  fast mode with the rules 99 (68 / 1 / 0). The two fails without rules (an empty required argument; an email sent in
+  the same turn as the event it announces) are the same in exact mode, so they are the model's, not the fast build's.
+  Which scenario slips moves with small prompt changes (98-99 over three rule variants), so read the score to within
+  a point or two.
+- For one call a turn, a harness can send the standard `parallel_tool_calls: false`; the server honours it.
+- Prefill re-measured on this image, cold (`cached 0`): 3,858 / 3,964 / 4,078 tok/s at 8k / 16k / 32k, with the head
+  at 81 C after an hour of benchmarks and three 0.5 s heat pauses in the run.
+
 ## Vince GLM5.3 Flash v2.4 (2026-11-11): TensorFold 1.2.6's GLM changes, adapted to this engine at TP=4
 
 Image `tensorfold-glm53:vince-v2.4` (overlay label `90e14f29ea76`). Upstream TensorFold

@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Vince GLM5.3 Flash: build this recipe's image tensorfold-glm53:vince-v2.4 on the four Sparks = Mia's
+# Vince GLM5.3 Flash: build this recipe's image tensorfold-glm53:vince-v2.5 on the four Sparks = Mia's
 # tensorfold-glm53:v0.6.0 plus vince/overlay (the changed TensorFold files, as sources: no compiled .pyc files),
 # labelled with the overlay's own hash, so its compiled kernels get their own folder under ~/.cache/tensorfold-glm53
 # and never mix with another build's.
@@ -14,7 +14,7 @@ ROOT=$(cd "$(dirname "$(readlink -f "$0")")/.." && pwd)
 MODE=build; case "${1:-}" in --force) MODE=force ;; --check) MODE=check ;; "") ;;
   -h|--help|help) sed -n '2,11s/^# \{0,1\}//p' "$0"; exit 0 ;; *) echo "usage: $0 [--force|--check]" >&2; exit 2 ;; esac
 [[ -f "$ROOT/scripts/local.sh" ]] || { echo "scripts/local.sh is missing: cp vince/local.sh.example scripts/local.sh and fill it in" >&2; exit 2; }
-TAG=${TAG:-tensorfold-glm53:vince-v2.4}
+TAG=${TAG:-tensorfold-glm53:vince-v2.5}
 BASE=${BASE:-tensorfold-glm53:v0.6.0}
 read -r -a WORKERS <<<"$(cd "$ROOT" && bash -c 'source scripts/local.sh >/dev/null 2>&1; echo "$WORKER $WORKER2 $WORKER3"')"
 NODES=(local "${WORKERS[@]}"); [[ -z "${ONLY:-}" ]] || read -r -a NODES <<<"$ONLY"   # ONLY="local" builds here only
@@ -36,7 +36,7 @@ EOF
 
 # kernel caches to start this build's from, the first that exists: those of the development builds this recipe was
 # measured on (they exist only on the author's Sparks), else Mia's image's own
-SEEDS=${SEEDS:-10ad9c1018df f0e955050f72 9416aa451117 830adf78a9af fc21336e5bbd 10294884a520 f2dc974b7908}
+SEEDS=${SEEDS:-90e14f29ea76 10ad9c1018df f0e955050f72 9416aa451117 830adf78a9af fc21336e5bbd 10294884a520 f2dc974b7908}
 # The build client sometimes never returns on a worker although the image is tagged: it is bounded (BUILD_TIMEOUT,
 # 180 s) and the image's label decides whether the build worked.
 build() {   # <node>: build there, then seed its kernel cache (unchanged kernels need no recompiling)

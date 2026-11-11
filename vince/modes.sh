@@ -10,7 +10,7 @@
 #                   every greedy reply
 #                   bit-identical to Mia's stock build
 #   stock           Mia's image and settings, unchanged
-VINCE_IMAGE=${VINCE_IMAGE:-tensorfold-glm53:vince-v2.4}   # Mia's tensorfold-glm53:v0.6.0 + vince/overlay (vince/build-image.sh)
+VINCE_IMAGE=${VINCE_IMAGE:-tensorfold-glm53:vince-v2.5}   # Mia's tensorfold-glm53:v0.6.0 + vince/overlay (vince/build-image.sh)
 ENGINE=python                         # Mia's TensorFold v0.6.0 Python engine: the engine vince/overlay modifies
 case "${VINCE_MODE:-fast}" in
   fast|exact)
@@ -51,6 +51,10 @@ case "${VINCE_MODE:-fast}" in
       export TF_GLM_MAX_ROWS=32       # a reply that repeats text it has seen (a file rewrite) takes up to 31 copied
       COPY_MAX="${COPY_MAX:-31}"      #   tokens a round, was 15: 252 -> 326 tok/s on a quoted file, 244 -> 316 on an edit
       WIDE_GRAPHS="${WIDE_GRAPHS:-16,32}"   # both widths replay CUDA graphs
+      # v2.5: optional tool-call rules, OFF by default (replies as v2.4). TF_GLM_TOOL_RULES=1 appends four rules to
+      # the system message of a request that offers tools (server/tools.py TOOL_RULES; TF_GLM_TOOL_RULES_TEXT replaces
+      # them). They were tuned on one benchmark's harness: a harness's own system prompt is the better place.
+      export TF_GLM_TOOL_RULES="${TF_GLM_TOOL_RULES:-0}"
       # exact mode keeps v1's settings: the same-bits prefill switches are not re-verified there yet (PART16 and ZC
       # only act on bf16 partials)
     fi

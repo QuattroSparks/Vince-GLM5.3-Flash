@@ -76,7 +76,7 @@ DRY_RUN=1 ./start-vince.sh    # run the checks and print every rank's docker com
 ```
 
 `start-vince.sh` checks `scripts/local.sh`, the mode, ssh to the three workers and the image
-`tensorfold-glm53:vince-v2.4` on all four Sparks; where the image is missing, `vince/build-image.sh` builds it from
+`tensorfold-glm53:vince-v2.5` on all four Sparks; where the image is missing, `vince/build-image.sh` builds it from
 Mia's `tensorfold-glm53:v0.6.0` plus `vince/overlay`. Then it hands over to Mia's `start-tp4-switchless.sh`, which
 checks the weights on every Spark, the ring, the port and the memory, starts the four ranks and waits for the first
 reply. The first start on a new image also compiles its CUDA kernels. Exit codes: 0 serving, 2 settings, 3 a worker
@@ -258,8 +258,8 @@ Spark's memory: [`vince/extras/parakeet/README.md`](vince/extras/parakeet/README
 
 | `VINCE_MODE=` | Image | What is on | Replies |
 |---|---|---|---|
-| `fast` (default) | `vince-v2.4` | v2.4's 32-row verify windows and heat bands, the RoCE ring exchange, 12,288-row prompt chunks, four prompt-precision switches, the eight same-bits prefill switches of v2 and v2.2, v2.3's three short-prompt settings, the two decode switches | **not bit-identical to Mia's stock build** |
-| `exact` | `vince-v2.4` | v2.4's heat bands, the RoCE ring exchange, 6,144-row prompt chunks, the two decode switches | bit-identical to stock |
+| `fast` (default) | `vince-v2.5` | v2.4's 32-row verify windows and heat bands, the RoCE ring exchange, 12,288-row prompt chunks, four prompt-precision switches, the eight same-bits prefill switches of v2 and v2.2, v2.3's three short-prompt settings, the two decode switches | **not bit-identical to Mia's stock build** |
+| `exact` | `vince-v2.5` | v2.4's heat bands, the RoCE ring exchange, 6,144-row prompt chunks, the two decode switches | bit-identical to stock |
 | `stock` | Mia's `v0.6.0` | nothing: Mia's build and settings | the reference |
 
 **Fast mode's replies are not bit-identical to Mia's stock build.** Four switches (`TF_GLM_PF_FP8`,
@@ -505,8 +505,8 @@ whole installation and on the rules you work under, and on checking the model's 
 - `vince/modes.sh`: the three modes and every switch they set. `.env`: two of Mia's settings, on.
 - `vince/overlay/`: what the image adds to Mia's: 30 changed or new TensorFold files and a launcher wrapper that can trace
   rank 0 with `TF_GLM_PF_NSYS=1`. Sources only, no compiled files.
-- `vince/build-image.sh`: builds `tensorfold-glm53:vince-v2.4` on the four Sparks.
-- `vince/glm53-vince-v2.4.patch`: the same changes as a diff against the TensorFold package in Mia's image.
+- `vince/build-image.sh`: builds `tensorfold-glm53:vince-v2.5` on the four Sparks.
+- `vince/glm53-vince-v2.5.patch`: the same changes as a diff against the TensorFold package in Mia's image.
 - `vince/check.sh`, `vince/tools/`: the checks and benchmarks (`bench2.py`, `ttft_scan.py` and `thermal.py` are the guarded ones
   v2.3 was measured with), plus `switches.sh` (the runtime switch file of the experiments), `editbench.py` (replies that repeat a file) and `deepheat.py` (long prompts back to back, with the head's temperature). `dbench.py` and `rep.py` read sparkDash's code prompts from a
   [sparkDash](https://github.com/MiaAI-Lab/sparkDash) checkout (`SPARKDASH_DIR`, default `~/sparkDash`).
